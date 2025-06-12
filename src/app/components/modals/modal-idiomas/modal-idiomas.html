@@ -1,0 +1,9 @@
+<h2>Idiomas</h2>
+<input [(ngModel)]="idioma" placeholder="Ex: Inglês" />
+<button (click)="adicionar()">Adicionar</button>
+
+<ul>
+  <li *ngFor="let idioma of modalService.idiomas">{{ idioma }}</li>
+</ul>
+
+<button (click)="finalizar()">Finalizar</button>

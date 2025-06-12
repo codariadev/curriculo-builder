@@ -1,0 +1,9 @@
+<h2>Experiências</h2>
+<input [(ngModel)]="experiencia" placeholder="Ex: Desenvolvedor na XYZ" />
+<button (click)="adicionar()">Adicionar</button>
+
+<ul>
+  <li *ngFor="let exp of modalService.experiencias">{{ exp }}</li>
+</ul>
+
+<button (click)="continuar()">Avançar</button>

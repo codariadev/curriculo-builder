@@ -1,0 +1,9 @@
+<h2>Habilidades</h2>
+<input [(ngModel)]="skill" placeholder="Ex: Angular, TypeScript" />
+<button (click)="adicionar()">Adicionar</button>
+
+<ul>
+  <li *ngFor="let skill of modalService.skills">{{ skill }}</li>
+</ul>
+
+<button (click)="continuar()">Avançar</button>
