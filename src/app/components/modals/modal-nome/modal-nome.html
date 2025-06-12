@@ -1,3 +1,12 @@
-<h2>Seu nome</h2>
-<input [(ngModel)]="nome" placeholder="Digite seu nome" />
-<button (click)="continuar()">Avançar</button>
+<main class="main-container">
+  <section class="modal-header">
+    <h2 class="modal-title">Informações iniciais</h2>
+  </section>
+  <section class="modal-content">
+    <input [(ngModel)]="nome" placeholder="Digite seu nome" />
+  </section>
+  <section class="modal-buttons">
+    <button class="back" (click)="voltar()">Voltar</button>
+    <button class="foward" (click)="continuar()">Avançar</button>
+  </section>
+</main>

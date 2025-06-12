@@ -19,8 +19,16 @@ export class ModalExperienciasComponent {
       this.experiencia = '';
     }
   }
+  remover(exp: string): void {
+   const index = this.modalService.experiencias.indexOf(exp);
+      this.modalService.experiencias.splice(index, 1);
+  }
+
 
   continuar() {
     this.modalService.avancarEtapa();
+  }
+  voltar(){
+    this.modalService.voltarEtapa();
   }
 }

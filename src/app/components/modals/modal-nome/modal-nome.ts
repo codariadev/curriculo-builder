@@ -19,4 +19,7 @@ export class ModalNomeComponent {
       this.modalService.avancarEtapa();
     }
   }
+  voltar() {
+    this.modalService.voltarEtapa();
+  }
 }

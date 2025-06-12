@@ -13,6 +13,7 @@ import { ModalIdiomasComponent } from "../modals/modal-idiomas/modal-idiomas";
   templateUrl: './modal-wrapper.html',
   imports: [FormsModule, CommonModule, ModalNomeComponent, ModalExperienciasComponent, ModalSkillsComponent, ModalEducacaoComponent, ModalIdiomasComponent],
   standalone: true,
+  styleUrls: ['./modal-wrapper.css'],
 })
 export class ModalWrapperComponent {
   constructor(public modalService: ModalService) {}
