@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalSkills } from './modal-skills';
+import { ModalSkillsComponent } from './modal-skills';
 
 describe('ModalSkills', () => {
-  let component: ModalSkills;
-  let fixture: ComponentFixture<ModalSkills>;
+  let component: ModalSkillsComponent;
+  let fixture: ComponentFixture<ModalSkillsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalSkills]
+      imports: [ModalSkillsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModalSkills);
+    fixture = TestBed.createComponent(ModalSkillsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
