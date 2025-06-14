@@ -39,7 +39,7 @@
     ></textarea>
   </section>
 
-  <section class="inserted-exp">
+  <ng-container class="inserted-exp" *ngIf="modalService.experiencias.length > 0">
     <ul>
       <li *ngFor="let exp of modalService.experiencias">
         <div class="exp-content">
@@ -61,7 +61,7 @@
         </button>
       </li>
     </ul>
-  </section>
+  </ng-container>
   <section class="modal-buttons">
     <button class="back" (click)="voltar()">Voltar</button>
     <button class="add" (click)="adicionar()">
