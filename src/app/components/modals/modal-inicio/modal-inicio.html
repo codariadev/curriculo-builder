@@ -3,22 +3,10 @@
     <h2 class="modal-title">Informações iniciais</h2>
   </section>
   <section class="modal-content">
-    <label class="nome">
-      Nome:
-      <input [(ngModel)]="nome" />
-    </label>
-    <label class="nascimento">
-      Data de Nascimento:
-      <input type="date" [(ngModel)]="nascimento" />
-    </label>
-    <label class="celular">
-      Celular:
-      <input type="text" mask="(00) 00000-0000" [(ngModel)]="contatoCel" />
-    </label>
-    <label class="email">
-      Email:
-      <input type="text" [(ngModel)]="contatoEmail" />
-    </label>
+    <input class="nome" [(ngModel)]="nome" placeholder="Insira seu nome" />
+    <input class="email" type="text" [(ngModel)]="contatoEmail" placeholder="Email"/>
+    <input class="nascimento" type="date" [(ngModel)]="nascimento"/>
+    <input class="celular" type="text" mask="(00) 00000-0000" [(ngModel)]="contatoCel" placeholder="Celular"/>
   </section>
   <section class="modal-buttons">
     <button class="back" (click)="voltar()">Voltar</button>

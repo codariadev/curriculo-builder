@@ -1,6 +1,73 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+:root{
+  --botao-altura: 2.5em;
+}
+body{
+  min-height: 100vh;
+}
+.main-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
 
+  .modal-header {
+    font-size: 25px;
+    color: royalblue;
+    font-weight: 600;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em 0;
+  }
+  input,
+  textarea {
+    width: 100%;
+    padding: 20px 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+    font-size: 1em;
+    color: gray;
+  }
+  .modal-content,
+  .modal-exp-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 2em;
+    gap: 2em;
+  }
+}
+.modal-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2em 3em;
+}
+.modal-buttons button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: royalblue;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 20px;
+  transform: 0.3s ease;
+  width: 7em;
+  height: var(--botao-altura);
+}
+.modal-buttons button:hover {
+  background-color: rgb(56, 90, 194);
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

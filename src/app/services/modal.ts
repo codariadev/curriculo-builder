@@ -1,12 +1,21 @@
 import { Injectable } from '@angular/core';
 
+
+interface Experiencia {
+  empresa: string;
+  cargo: string;
+  descricao: string;
+  dataInicio: string;
+  dataFim: string;
+  atual: boolean;
+}
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
   currentStep: number = 0;
   nome: string = '';
-  experiencias: string[] = [];
+  experiencias: Experiencia[] = [];
   skills: string[] = [];
   educacao: string[] = [];
   idiomas: string[] = [];

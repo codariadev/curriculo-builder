@@ -4,41 +4,58 @@
     <p>Adicione suas experiências profissionais abaixo:</p>
   </section>
   <section class="modal-exp-content">
-    <label class="experiencia">
-      Empresa:
-      <input  [(ngModel)]="empresa" placeholder="Ex: Desenvolvedor Frontend" />
-    </label>
-    <label class="cargo">
-      Cargo:
-      <input [(ngModel)]="cargo" placeholder="Ex: Empresa XYZ" />
-    </label>
-    <label class="descricao">
-      Descrição:
-      <textarea [(ngModel)]="descricao" placeholder="Ex: Desenvolvimento de aplicações web..."></textarea>
-    </label>
-    <label class="data">
-      Data de início:
-      <input type="date" [(ngModel)]="dataInicio" />
-    </label>
-    <label class="data">
-      Data de término:
-      <input type="date" [(ngModel)]="dataFim" />
-    </label>
-    <label>
-      <input type="checkbox" [(ngModel)]="atual" />
+    <input
+      class="empresa"
+      [(ngModel)]="empresa"
+      placeholder="Insira o nome da empresa"
+    />
+
+    <input class="cargo" [(ngModel)]="cargo" placeholder="Cargo" />
+
+    <input
+      class="data"
+      type="date"
+      [(ngModel)]="dataInicio"
+      placeholder="Data de início"
+    />
+
+    <input
+      class="data"
+      type="date"
+      [(ngModel)]="dataFim"
+      placeholder="Data de término"
+    />
+
+    <label class="checkbox">
       Emprego atual?
-      </label>
-
-
+      <input type="checkbox" [(ngModel)]="atual" />
+    </label>
+    <textarea
+      class="descricao"
+      [(ngModel)]="descricao"
+      placeholder="Descrição"
+      matInput
+      cdkTextareaAutosize
+    ></textarea>
   </section>
+
   <section class="inserted-exp">
     <ul>
       <li *ngFor="let exp of modalService.experiencias">
-        {{ exp }}
+        <div class="exp-content">
+          <p><strong>Empresa:</strong> {{ exp.empresa }}</p>
+          <p><strong>Cargo:</strong> {{ exp.cargo }}</p>
+          <p><strong>Descrição:</strong> {{ exp.descricao }}</p>
+          <p><strong>Data de início:</strong> {{ exp.dataInicio }}</p>
+          <p>
+            <strong>Data de término:</strong> {{ exp.atual ? 'Atual' :
+            exp.dataFim }}
+          </p>
+        </div>
         <button class="remove" (click)="remover(exp) ">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <path
-              d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"
+              d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"
             />
           </svg>
         </button>

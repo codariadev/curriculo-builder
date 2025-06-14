@@ -1,4 +1,77 @@
-.main-container{
+.modal-header p {
+  font-size: 0.7em;
+}
+.empresa,
+.cargo {
+  grid-column: span 3;
+}
+.descricao {
+  grid-column: span 3;
+  resize: none;
+  overflow: hidden;
+  min-height: 6em;
+}
+.checkbox {
+  color: gray;
+  font-size: 1em;
   display: flex;
-  max-width: 700px;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  input {
+    height: 20px;
+    width: 20%;
+  }
+}
+.inserted-exp {
+  padding: 2em 0;
+  outline: 0;
+  font-size: 1em;
+  color: gray;
+  ul {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 2em;
+
+    li {
+      min-width: 300px;
+      padding: 20px 20px;
+      border: 1px solid rgba(105, 105, 105, 0.397);
+      border-radius: 10px;
+      position: relative;
+      list-style: none;
+    }
+  }
+}
+
+.add {
+  top: 0;
+  width: var(--botao-altura);
+  background-color: green;
+  svg {
+    fill: white;
+    position: absolute;
+    width: 30px;
+    top: 50;
+    left: 50;
+    transform: translate(-50%, -50%);
+  }
+}
+.exp-content{
+  flex-direction: column;
+  display: flex;
+}
+.remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  padding: .2em;
+  svg {
+    width: 30px;
+    height: 30px;
+  }
 }
