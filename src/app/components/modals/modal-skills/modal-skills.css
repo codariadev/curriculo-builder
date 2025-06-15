@@ -9,9 +9,10 @@
   }
 }
 .modal-content ul {
+  width: 500px;
   list-style-type: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1em;
   justify-content: center;
   padding: 0;

@@ -3,52 +3,87 @@
     <h2 class="modal-title">Educação</h2>
 
     <section class="modal-content">
-      <label for="tipo">Tipo de Educação</label>
-      <select id="tipo" [(ngModel)]="tipoEducacao" name="tipo">
-        <option value="medio">Ensino Médio</option>
-        <option value="tecnico">Técnico</option>
-        <option value="graduacao">Graduação</option>
-        <option value="pos">Pós-graduação</option>
-      </select>
+      <label for="tipo">
+        Tipo de Educação
+        <select id="tipo" [(ngModel)]="tipoEducacao" name="tipo">
+          <option value="medio">Ensino Médio</option>
+          <option value="tecnico">Técnico</option>
+          <option value="graduacao">Graduação</option>
+          <option value="pos">Pós-graduação</option>
+        </select>
+      </label>
 
       <ng-container [ngSwitch]="tipoEducacao">
         <div *ngSwitchCase="'medio'">
-          <label for="formacao">Formação</label>
-          <select id="formacao" [(ngModel)]="formacao" name="formacao">
-            <option value="ensino-medio-completo">Ensino Médio Completo</option>
-            <option value="ensino-medio-incompleto">Ensino Médio Incompleto</option>
-            <option value="eja">EJA (Educação de Jovens e Adultos)</option>
-          </select>
+          <label for="formacao"
+            >Formação
+            <select id="formacao" [(ngModel)]="formacao" name="formacao">
+              <option value="ensino-medio-completo">
+                Ensino Médio Completo
+              </option>
+              <option value="ensino-medio-incompleto">
+                Ensino Médio Incompleto
+              </option>
+              <option value="eja">EJA (Educação de Jovens e Adultos)</option>
+            </select></label
+          >
         </div>
         <div *ngSwitchDefault>
-          <label for="formacao">Curso ou Formação</label>
-          <input id="formacao" type="text" [(ngModel)]="formacao" name="formacao" />
+          <label for="formacao"
+            >Curso ou Formação
+            <input
+              id="formacao"
+              type="text"
+              [(ngModel)]="formacao"
+              name="formacao"
+          /></label>
         </div>
       </ng-container>
 
-      <label for="instituicao">Instituição</label>
-      <input id="instituicao" type="text" [(ngModel)]="instituicao" name="instituicao" />
+      <label for="instituicao"
+        >Instituição
+        <input
+          id="instituicao"
+          type="text"
+          [(ngModel)]="instituicao"
+          name="instituicao"
+      /></label>
 
-      <label for="localizacao">Estado</label>
-      <select id="localizacao" [(ngModel)]="localizacao" name="localizacao">
-        <option value="">Selecione um estado</option>
-        <option *ngFor="let estado of estados" [value]="estado.sigla">
-          {{ estado.nome }}
-        </option>
-      </select>
+      <label for="localizacao"
+        >Estado
+        <select id="localizacao" [(ngModel)]="localizacao" name="localizacao">
+          <option value="">Selecione um estado</option>
+          <option *ngFor="let estado of estados" [value]="estado.sigla">
+            {{ estado.nome }}
+          </option>
+        </select></label
+      >
 
-      <label for="dataConclusao">Data de Conclusão</label>
-      <input id="dataConclusao" type="date" [(ngModel)]="dataConclusao" name="dataConclusao" />
-
-      <label>
-        <input type="checkbox" [(ngModel)]="concluido" name="concluido" />
-        Concluído
+      <div class="conclusão">
+        <label for="dataConclusao"
+        >Data de Conclusão
+        <input
+          class="dataConclusao-input"
+          id="dataConclusao"
+          type="date"
+          [(ngModel)]="dataConclusao"
+          name="dataConclusao"
+        />
       </label>
+      <label class="checkbox">
+        Concluído
+        <input type="checkbox" [(ngModel)]="concluido" name="concluido" />
+      </label>
+      </div>
 
-      <ng-container class="inserted-education" *ngIf="modalService.educacao.length > 0">
+      <ng-container
+        class="inserted-education"
+        *ngIf="modalService.educacao.length > 0"
+      >
         <ul class="inserted-lang-ul">
           <li *ngFor="let educ of modalService.educacao">
-            {{ educ.tipo }} - {{ educ.formacao || '–––' }} - {{ educ.instituicao }}
+            {{ educ.tipo }} - {{ educ.formacao || '–––' }} - {{ educ.instituicao
+            }}
             <button class="removeEduc" (click)="remover(educ)">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path

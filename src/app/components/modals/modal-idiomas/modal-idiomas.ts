@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-modal-idiomas',
   templateUrl: './modal-idiomas.html',
+  styleUrl: './modal-idiomas.css',
   imports: [FormsModule, CommonModule],
 })
 export class ModalIdiomasComponent {
@@ -20,7 +21,7 @@ export class ModalIdiomasComponent {
     }
   }
   remover(idioma: string): void {
-    const index = this.modalService.skills.indexOf(idioma);
+    const index = this.modalService.idiomas.indexOf(idioma);
     if (index > -1) {
       this.modalService.idiomas.splice(index, 1)
     }

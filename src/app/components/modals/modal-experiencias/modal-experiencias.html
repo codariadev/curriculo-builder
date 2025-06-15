@@ -39,18 +39,18 @@
     ></textarea>
   </section>
 
-  <ng-container class="inserted-exp" *ngIf="modalService.experiencias.length > 0">
-    <ul>
+  <ng-container *ngIf="modalService.experiencias.length > 0">
+    <ul class="inserted-exp">
       <li *ngFor="let exp of modalService.experiencias">
         <div class="exp-content">
           <p><strong>Empresa:</strong> {{ exp.empresa }}</p>
           <p><strong>Cargo:</strong> {{ exp.cargo }}</p>
-          <p><strong>Descrição:</strong> {{ exp.descricao }}</p>
           <p><strong>Data de início:</strong> {{ exp.dataInicio }}</p>
           <p>
             <strong>Data de término:</strong> {{ exp.atual ? 'Atual' :
             exp.dataFim }}
           </p>
+          <p><strong>Descrição:</strong> {{ exp.descricao }}</p>
         </div>
         <button class="remove" (click)="remover(exp) ">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

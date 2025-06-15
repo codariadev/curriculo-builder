@@ -1,34 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalService } from '../../../services/modal';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-modal-educacao',
   templateUrl: './modal-educacao.html',
-  styleUrl: './modal-educacao.css',
+  styleUrls: ['./modal-educacao.css'],
   standalone: true,
   imports: [FormsModule, CommonModule],
 })
-export class ModalEducacaoComponent implements OnInit {
+export class ModalEducacaoComponent {
   tipoEducacao = '';
   formacao = '';
   instituicao = '';
   localizacao = '';
   dataConclusao = '';
   concluido = false;
-  estados: any[] = [];
+  estados = [
+    { sigla: 'AC', nome: 'Acre' },
+    { sigla: 'AL', nome: 'Alagoas' },
+    { sigla: 'AP', nome: 'Amapá' },
+    { sigla: 'AM', nome: 'Amazonas' },
+    { sigla: 'BA', nome: 'Bahia' },
+    { sigla: 'CE', nome: 'Ceará' },
+    { sigla: 'DF', nome: 'Distrito Federal' },
+    { sigla: 'ES', nome: 'Espírito Santo' },
+    { sigla: 'GO', nome: 'Goiás' },
+    { sigla: 'MA', nome: 'Maranhão' },
+    { sigla: 'MT', nome: 'Mato Grosso' },
+    { sigla: 'MS', nome: 'Mato Grosso do Sul' },
+    { sigla: 'MG', nome: 'Minas Gerais' },
+    { sigla: 'PA', nome: 'Pará' },
+    { sigla: 'PB', nome: 'Paraíba' },
+    { sigla: 'PR', nome: 'Paraná' },
+    { sigla: 'PE', nome: 'Pernambuco' },
+    { sigla: 'PI', nome: 'Piauí' },
+    { sigla: 'RJ', nome: 'Rio de Janeiro' },
+    { sigla: 'RN', nome: 'Rio Grande do Norte' },
+    { sigla: 'RS', nome: 'Rio Grande do Sul' },
+    { sigla: 'RO', nome: 'Rondônia' },
+    { sigla: 'RR', nome: 'Roraima' },
+    { sigla: 'SC', nome: 'Santa Catarina' },
+    { sigla: 'SP', nome: 'São Paulo' },
+    { sigla: 'SE', nome: 'Sergipe' },
+    { sigla: 'TO', nome: 'Tocantins' },
+  ];
 
-  constructor(public modalService: ModalService, private http: HttpClient) {}
-
-  ngOnInit(): void {
-    this.http
-      .get<any[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
-      .subscribe((data) => {
-        this.estados = data.sort((a, b) => a.nome.localeCompare(b.nome));
-      });
-  }
+  constructor(public modalService: ModalService) {}
 
   adicionar() {
     if (this.tipoEducacao && this.instituicao && this.localizacao && this.dataConclusao) {
@@ -40,9 +59,7 @@ export class ModalEducacaoComponent implements OnInit {
         conclusao: this.dataConclusao,
         concluido: this.concluido,
       };
-
       this.modalService.educacao.push(educacao);
-
       this.tipoEducacao = '';
       this.formacao = '';
       this.instituicao = '';
