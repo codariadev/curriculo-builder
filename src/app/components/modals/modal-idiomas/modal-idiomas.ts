@@ -19,6 +19,15 @@ export class ModalIdiomasComponent {
       this.idioma = '';
     }
   }
+  remover(idioma: string): void {
+    const index = this.modalService.skills.indexOf(idioma);
+    if (index > -1) {
+      this.modalService.idiomas.splice(index, 1)
+    }
+  }
+  voltar() {
+    this.modalService.voltarEtapa();
+  }
 
   finalizar() {
     console.log('Currículo finalizado!', this.modalService);

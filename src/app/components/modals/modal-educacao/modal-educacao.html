@@ -1,9 +1,76 @@
-<h2 class="modal-title">Educação</h2>
-<input [(ngModel)]="curso" placeholder="Ex: Graduação em Sistemas" />
-<button (click)="adicionar()">Adicionar</button>
+<main class="main-container">
+  <section class="modal-header">
+    <h2 class="modal-title">Educação</h2>
 
-<ul>
-  <li *ngFor="let curso of modalService.educacao">{{ curso }}</li>
-</ul>
+    <section class="modal-content">
+      <label for="tipo">Tipo de Educação</label>
+      <select id="tipo" [(ngModel)]="tipoEducacao" name="tipo">
+        <option value="medio">Ensino Médio</option>
+        <option value="tecnico">Técnico</option>
+        <option value="graduacao">Graduação</option>
+        <option value="pos">Pós-graduação</option>
+      </select>
 
-<button (click)="continuar()">Avançar</button>
+      <ng-container [ngSwitch]="tipoEducacao">
+        <div *ngSwitchCase="'medio'">
+          <label for="formacao">Formação</label>
+          <select id="formacao" [(ngModel)]="formacao" name="formacao">
+            <option value="ensino-medio-completo">Ensino Médio Completo</option>
+            <option value="ensino-medio-incompleto">Ensino Médio Incompleto</option>
+            <option value="eja">EJA (Educação de Jovens e Adultos)</option>
+          </select>
+        </div>
+        <div *ngSwitchDefault>
+          <label for="formacao">Curso ou Formação</label>
+          <input id="formacao" type="text" [(ngModel)]="formacao" name="formacao" />
+        </div>
+      </ng-container>
+
+      <label for="instituicao">Instituição</label>
+      <input id="instituicao" type="text" [(ngModel)]="instituicao" name="instituicao" />
+
+      <label for="localizacao">Estado</label>
+      <select id="localizacao" [(ngModel)]="localizacao" name="localizacao">
+        <option value="">Selecione um estado</option>
+        <option *ngFor="let estado of estados" [value]="estado.sigla">
+          {{ estado.nome }}
+        </option>
+      </select>
+
+      <label for="dataConclusao">Data de Conclusão</label>
+      <input id="dataConclusao" type="date" [(ngModel)]="dataConclusao" name="dataConclusao" />
+
+      <label>
+        <input type="checkbox" [(ngModel)]="concluido" name="concluido" />
+        Concluído
+      </label>
+
+      <ng-container class="inserted-education" *ngIf="modalService.educacao.length > 0">
+        <ul class="inserted-lang-ul">
+          <li *ngFor="let educ of modalService.educacao">
+            {{ educ.tipo }} - {{ educ.formacao || '–––' }} - {{ educ.instituicao }}
+            <button class="removeEduc" (click)="remover(educ)">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                  d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"
+                />
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </ng-container>
+    </section>
+  </section>
+
+  <section class="modal-buttons">
+    <button class="back" (click)="voltar()">Voltar</button>
+    <button class="add" (click)="adicionar()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path
+          d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
+        />
+      </svg>
+    </button>
+    <button class="foward" (click)="continuar()">Avançar</button>
+  </section>
+</main>

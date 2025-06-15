@@ -9,6 +9,16 @@ interface Experiencia {
   dataFim: string;
   atual: boolean;
 }
+
+export interface Educacao {
+  tipo: string;
+  formacao: string;
+  instituicao: string;
+  estado: string;
+  conclusao: string;
+  concluido: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +27,7 @@ export class ModalService {
   nome: string = '';
   experiencias: Experiencia[] = [];
   skills: string[] = [];
-  educacao: string[] = [];
+  educacao: Educacao[] = [];
   idiomas: string[] = [];
 
   avancarEtapa() {
