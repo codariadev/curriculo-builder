@@ -1,4 +1,9 @@
-
+.modal-buttons{
+  justify-content: center;
+}
+.foward{
+  width: 80%;
+}
 
 .nome,
 .email {
