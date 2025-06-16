@@ -1,0 +1,28 @@
+.main-container{
+  border-radius: 2em;
+  border: 1px solid #ccc;
+  margin-top: 2em;
+}
+
+.modal-content{
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  gap: 3em;
+  article{
+    text-align: center;
+  }
+  h2{
+    text-align: center;
+    padding-bottom: 1.2em;
+  }
+  ul{
+    list-style: none;
+    display: flex;
+    gap: 1em;
+  }
+  .dadosIniciais, li{
+    width: 100%;
+    text-align: center;
+  }
+}

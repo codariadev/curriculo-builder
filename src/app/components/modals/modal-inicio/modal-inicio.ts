@@ -4,6 +4,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {NgxMaskDirective, provideNgxMask} from 'ngx-mask'
 
+
+interface Nome{
+  nome: string;
+  nascimento: string;
+  contatoCel: string;
+  contatoEmail: string;
+}
+
 @Component({
   selector: 'app-modal-inicio',
   templateUrl: './modal-inicio.html',
@@ -20,9 +28,12 @@ export class ModalInicioComponent {
   constructor(public modalService: ModalService) {}
 
   continuar() {
-    // if (this.nome.trim()) {
-    //   this.modalService.nome = this.nome;
-    // }
+    const inicio: Nome = {
+      nome: this.nome,
+      nascimento: this.nascimento,
+      contatoCel: this.contatoCel,
+      contatoEmail: this.contatoEmail,
+    }
     this.modalService.avancarEtapa();
   }
   voltar() {

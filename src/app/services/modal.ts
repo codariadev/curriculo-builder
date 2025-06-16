@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-
 interface Experiencia {
   empresa: string;
   cargo: string;
@@ -10,7 +9,7 @@ interface Experiencia {
   atual: boolean;
 }
 
-export interface Educacao {
+interface Educacao {
   tipo: string;
   formacao: string;
   instituicao: string;
@@ -19,16 +18,27 @@ export interface Educacao {
   concluido: boolean;
 }
 
+interface Nome {
+  nome: string;
+  nascimento: string;
+  contatoCel: number;
+  contatoEmail: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
-  currentStep: number = 0;
-  nome: string = '';
+  currentStep: number = 5;
+  nome: Nome[] = [];
   experiencias: Experiencia[] = [];
   skills: string[] = [];
   educacao: Educacao[] = [];
   idiomas: string[] = [];
+
+  constructor() {
+    this.carregarDadosTeste(); // carregar os dados automaticamente
+  }
 
   avancarEtapa() {
     this.currentStep++;
@@ -40,10 +50,69 @@ export class ModalService {
 
   resetar() {
     this.currentStep = 0;
-    this.nome = '';
+    this.nome = [];
     this.experiencias = [];
     this.skills = [];
     this.educacao = [];
     this.idiomas = [];
+  }
+
+  carregarDadosTeste() {
+    this.nome = [
+      {
+        nome: 'Lucas Eduardo',
+        nascimento: '1995-06-10',
+        contatoCel: 11999999999,
+        contatoEmail: 'lucas@email.com'
+      }
+    ];
+
+    this.experiencias = [
+      {
+        empresa: 'Tech Solutions',
+        cargo: 'Desenvolvedor Front-End',
+        descricao: 'Desenvolvimento de interfaces com Angular e integração com APIs.',
+        dataInicio: '2022-01-10',
+        dataFim: '2023-06-15',
+        atual: false
+      },
+      {
+        empresa: 'CodeWorks',
+        cargo: 'Estagiário em Desenvolvimento',
+        descricao: 'Auxílio em projetos web e manutenção de sistemas internos.',
+        dataInicio: '2021-02-01',
+        dataFim: '2021-12-20',
+        atual: false
+      }
+    ];
+
+    this.skills = [
+      'Angular',
+      'TypeScript',
+      'Firebase',
+      'Tailwind CSS',
+      'Git'
+    ];
+
+    this.educacao = [
+      {
+        tipo: 'Graduação',
+        formacao: 'Análise e Desenvolvimento de Sistemas',
+        instituicao: 'Fatec São Paulo',
+        estado: 'SP',
+        conclusao: '2023',
+        concluido: true
+      },
+      {
+        tipo: 'Curso Técnico',
+        formacao: 'Informática para Internet',
+        instituicao: 'ETEC',
+        estado: 'SP',
+        conclusao: '2019',
+        concluido: true
+      }
+    ];
+
+    this.idiomas = ['Português', 'Inglês', 'Espanhol'];
   }
 }

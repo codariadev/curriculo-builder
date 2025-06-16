@@ -7,11 +7,12 @@ import { ModalExperienciasComponent } from "../modals/modal-experiencias/modal-e
 import { ModalSkillsComponent } from "../modals/modal-skills/modal-skills";
 import { ModalEducacaoComponent } from "../modals/modal-educacao/modal-educacao";
 import { ModalIdiomasComponent } from "../modals/modal-idiomas/modal-idiomas";
+import { ModalPrint } from '../modals/modal-print/modal-print';
 
 @Component({
   selector: 'app-modal-wrapper',
   templateUrl: './modal-wrapper.html',
-  imports: [FormsModule, CommonModule, ModalInicioComponent, ModalExperienciasComponent, ModalSkillsComponent, ModalEducacaoComponent, ModalIdiomasComponent],
+  imports: [FormsModule, CommonModule, ModalInicioComponent, ModalExperienciasComponent, ModalSkillsComponent, ModalEducacaoComponent, ModalIdiomasComponent, ModalPrint],
   standalone: true,
   styleUrls: ['./modal-wrapper.css'],
 })

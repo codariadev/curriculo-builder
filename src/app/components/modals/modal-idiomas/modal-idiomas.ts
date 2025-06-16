@@ -30,9 +30,10 @@ export class ModalIdiomasComponent {
     this.modalService.voltarEtapa();
   }
 
-  finalizar() {
-    console.log('Currículo finalizado!', this.modalService);
-    alert('Currículo finalizado com sucesso!');
-    this.modalService.resetar();
+  continuar() {
+    // if (this.nome.trim()) {
+    //   this.modalService.nome = this.nome;
+    // }
+    this.modalService.avancarEtapa();
   }
 }
