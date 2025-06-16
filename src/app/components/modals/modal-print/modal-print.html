@@ -6,14 +6,14 @@
     <article>
       <h2>Dados Iniciais:</h2>
       <ul>
-        <li class="dadosIniciais" *ngFor="let inicio of modalService.nome">
-          {{ inicio.nome}} <br />
-          {{ inicio.nascimento }} <br />
-          {{ inicio.contatoCel }} <br />
-          {{ inicio.contatoEmail }}
+        <li class="dadosIniciais">
+          {{ modalService.inicio.nome }} <br />
+          {{ modalService.inicio.nascimento }} <br />
+          {{ modalService.inicio.contatoCel }} <br />
+          {{ modalService.inicio.contatoEmail }}
         </li>
       </ul>
-      <button>Editar</button>
+      <button (click)="abrirModal('inicio')">Editar</button>
     </article>
 
     <article>
@@ -24,6 +24,7 @@
           Cargo: {{ exp.cargo }}
         </li>
       </ul>
+      <button (click)="abrirModal('experiencias')">Editar</button>
     </article>
 
     <article>
@@ -31,6 +32,7 @@
       <ul>
         <li *ngFor="let skill of modalService.skills">{{ skill }}</li>
       </ul>
+      <button (click)="abrirModal('Habilidades')">Editar</button>
     </article>
 
     <article>
@@ -40,6 +42,7 @@
           {{ edu.formacao }} - {{ edu.instituicao }}
         </li>
       </ul>
+      <button (click)="abrirModal('educacao')">Editar</button>
     </article>
 
     <article>
@@ -47,8 +50,25 @@
       <ul>
         <li *ngFor="let idioma of modalService.idiomas">{{ idioma }}</li>
       </ul>
+      <button (click)="abrirModal('idiomas')">Editar</button>
     </article>
   </section>
+
+  <div class="modal-overlay" *ngIf="modalAberto">
+    <div class="modal-conteudo">
+      <button (click)="fecharModal()">Fechar</button>
+
+      <ng-container [ngSwitch]="modalAberto">
+        <app-modal-experiencias
+          *ngSwitchCase="'experiencias'"
+        ></app-modal-experiencias>
+        <app-modal-educacao *ngSwitchCase="'educacao'"></app-modal-educacao>
+        <app-modal-idiomas *ngSwitchCase="'idiomas'"></app-modal-idiomas>
+        <app-modal-inicio *ngSwitchCase="'inicio'"></app-modal-inicio>
+        <app-modal-skills *ngSwitchCase="'skills'"></app-modal-skills>
+      </ng-container>
+    </div>
+  </div>
 
   <footer class="mt-6 flex justify-end space-x-2 print:hidden">
     <!-- <button (click)="print()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Imprimir</button>

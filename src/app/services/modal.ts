@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-interface Experiencia {
+export interface Experiencia {
   empresa: string;
   cargo: string;
   descricao: string;
@@ -9,7 +9,7 @@ interface Experiencia {
   atual: boolean;
 }
 
-interface Educacao {
+export interface Educacao {
   tipo: string;
   formacao: string;
   instituicao: string;
@@ -18,7 +18,7 @@ interface Educacao {
   concluido: boolean;
 }
 
-interface Nome {
+export interface Inicio {
   nome: string;
   nascimento: string;
   contatoCel: number;
@@ -30,7 +30,12 @@ interface Nome {
 })
 export class ModalService {
   currentStep: number = 5;
-  nome: Nome[] = [];
+  inicio: Inicio = {
+    nome: '',
+    nascimento: '',
+    contatoCel: 0,
+    contatoEmail: ''
+  };
   experiencias: Experiencia[] = [];
   skills: string[] = [];
   educacao: Educacao[] = [];
@@ -50,7 +55,7 @@ export class ModalService {
 
   resetar() {
     this.currentStep = 0;
-    this.nome = [];
+    this.inicio = { nome: '', nascimento: '', contatoCel: 0, contatoEmail: '' };
     this.experiencias = [];
     this.skills = [];
     this.educacao = [];
@@ -58,14 +63,12 @@ export class ModalService {
   }
 
   carregarDadosTeste() {
-    this.nome = [
-      {
-        nome: 'Lucas Eduardo',
-        nascimento: '1995-06-10',
-        contatoCel: 11999999999,
-        contatoEmail: 'lucas@email.com'
-      }
-    ];
+    this.inicio = {
+      nome: 'Lucas Eduardo',
+      nascimento: '1995-06-10',
+      contatoCel: 11999999999,
+      contatoEmail: 'lucas@email.com'
+    };
 
     this.experiencias = [
       {
