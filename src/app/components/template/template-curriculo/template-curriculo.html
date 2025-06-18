@@ -1,0 +1,87 @@
+<ng-container [ngSwitch]="tipoTemplate">
+  <ng-container *ngSwitchCase="'classico'">
+    <main class="template-classico">
+      <section class="topo">
+        <h1>{{ dados?.inicio.nome }}</h1>
+        <p><strong>Nascimento:</strong> {{ dados?.inicio.nascimento }}</p>
+        <p><strong>Telefone:</strong> {{ dados?.inicio.contatoCel }}</p>
+        <p><strong>Email:</strong> {{ dados?.inicio.contatoEmail }}</p>
+      </section>
+
+      <section>
+        <h2>Experiências</h2>
+        <ul>
+          <li *ngFor="let exp of dados?.experiencias">
+            <strong>{{ exp.cargo }}</strong> - {{ exp.empresa }}
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Habilidades</h2>
+        <ul>
+          <li *ngFor="let skill of dados?.skills">{{ skill }}</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Educação</h2>
+        <ul>
+          <li *ngFor="let edu of dados?.educacao">
+            {{ edu.formacao }} - {{ edu.instituicao }}
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Idiomas</h2>
+        <ul>
+          <li *ngFor="let idioma of dados?.idiomas">{{ idioma }}</li>
+        </ul>
+      </section>
+    </main>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'moderno'">
+    <main class="template-moderno">
+      <header>
+        <h1>{{ dados?.inicio.nome }}</h1>
+        <p>{{ dados?.inicio.contatoCel }} | {{ dados?.inicio.contatoEmail }}</p>
+        <p>Nascimento: {{ dados?.inicio.nascimento }}</p>
+      </header>
+
+      <section>
+        <h2>Resumo Profissional</h2>
+        <ul>
+          <li *ngFor="let exp of dados?.experiencias">
+            <strong>{{ exp.cargo }}</strong> na <em>{{ exp.empresa }}</em>
+          </li>
+        </ul>
+      </section>
+
+      <section class="duas-colunas">
+        <div>
+          <h2>Skills</h2>
+          <ul>
+            <li *ngFor="let skill of dados?.skills">{{ skill }}</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Idiomas</h2>
+          <ul>
+            <li *ngFor="let idioma of dados?.idiomas">{{ idioma }}</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Educação</h2>
+        <ul>
+          <li *ngFor="let edu of dados?.educacao">
+            {{ edu.formacao }} - {{ edu.instituicao }}
+          </li>
+        </ul>
+      </section>
+    </main>
+  </ng-container>
+</ng-container>

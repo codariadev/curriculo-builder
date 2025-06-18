@@ -82,7 +82,7 @@ body {
     height: 100%;
   }
 }
-.modal-buttons button {
+.modal-buttons button, .button {
   border: none;
   outline: none;
   cursor: pointer;

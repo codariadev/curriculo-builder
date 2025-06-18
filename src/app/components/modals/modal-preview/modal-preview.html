@@ -1,0 +1,12 @@
+<div class="modal-overlay">
+  <div class="modal-body" id="area-impressao">
+    <app-template-curriculo
+      [tipoTemplate]="template"
+      [dados]="dados">
+    </app-template-curriculo>
+    <div class="acoes no-print">
+      <button (click)="fechar.emit()">Cancelar</button>
+      <button (click)="confirmarImpressao()">Confirmar e Imprimir</button>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,8 @@ import { ModalEducacaoComponent } from "../modals/modal-educacao/modal-educacao"
 import { ModalIdiomasComponent } from "../modals/modal-idiomas/modal-idiomas";
 import { ModalPrint } from '../modals/modal-print/modal-print';
 
+
+
 @Component({
   selector: 'app-modal-wrapper',
   templateUrl: './modal-wrapper.html',
