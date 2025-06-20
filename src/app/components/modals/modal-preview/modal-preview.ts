@@ -8,7 +8,6 @@ import { TemplateCurriculo } from '../../template/template-curriculo/template-cu
   imports: [TemplateCurriculo],
 })
 export class PreviewModalComponent {
-
   @Input() template: string = 'classico';
   @Input() dados?: {
     inicio: any;
@@ -16,13 +15,14 @@ export class PreviewModalComponent {
     skills: any[];
     educacao: any[];
     idiomas: any[];
+    idade: number | null;
   };
+
 
   @Output() fechar = new EventEmitter();
   @Output() confirmar = new EventEmitter();
 
   confirmarImpressao() {
     this.confirmar.emit();
-
   }
 }

@@ -1,17 +1,24 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  width: 100%;
+  overflow: auto;
 }
 
 .modal-body {
+  position: absolute;
   background: white;
   padding: 2rem;
-  max-height: 90vh;
   overflow-y: auto;
-  width: 80%;
+  top: 0;
+}
+@media print {
+  .modal-buttons {
+    display: none !important;
+  }
 }

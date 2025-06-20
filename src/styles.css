@@ -58,7 +58,6 @@ body {
   width: 100%;
   padding: 2em 3em;
   .add {
-    top: 0;
     width: var(--botao-altura);
     background-color: green;
     svg {
@@ -71,6 +70,35 @@ body {
     }
   }
 }
+.modal-buttons.centralizado {
+  justify-content: center;
+  gap: 1.5em;
+}
+.inserted-exp, .inserted-education {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: center;
+  width: 100%;
+  padding: 1em 0;
+  color: gray;
+  font-weight: 300;
+
+  li {
+    flex: 1 1 calc(50% - 1em);
+    max-width: calc(50% - 1em);
+    box-sizing: border-box;
+    list-style: none;
+    padding: 20px;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+  }
+}
+
+.exp-content, .inserted-education-content {
+  flex-direction: column;
+  display: flex;
+}
 .remove{
   background: none;
   border: none;
@@ -82,7 +110,7 @@ body {
     height: 100%;
   }
 }
-.modal-buttons button, .button {
+.modal-buttons button, .button, .modal-button button {
   border: none;
   outline: none;
   cursor: pointer;

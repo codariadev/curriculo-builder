@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalService } from '../../../services/modal';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
   imports: [FormsModule, CommonModule],
 })
 export class ModalIdiomasComponent {
+  @Input() exibirControles: boolean = true;
   idioma = '';
 
   constructor(public modalService: ModalService) {}
@@ -31,9 +32,6 @@ export class ModalIdiomasComponent {
   }
 
   continuar() {
-    // if (this.nome.trim()) {
-    //   this.modalService.nome = this.nome;
-    // }
     this.modalService.avancarEtapa();
   }
 }

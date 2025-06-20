@@ -1,8 +1,9 @@
-
 main {
   padding: 2rem;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   color: #333;
+  border: 1px solid black;
+  width: 210mm;
 }
 
 h1 {
@@ -30,19 +31,17 @@ ul li {
 }
 
 section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
-
 
 .template-classico {
   background-color: #fff;
 }
 
-
 .template-moderno {
   background-color: #f9f9f9;
   border-left: 6px solid #007acc;
-  padding: 2rem;
+  padding: 0 2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -65,4 +64,10 @@ section {
 
 .duas-colunas div {
   flex: 1;
+}
+@media print {
+  @page {
+    width: 210mm;
+    height: 297mm;
+  }
 }

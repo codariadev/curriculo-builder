@@ -2,13 +2,23 @@
   border-radius: 2em;
   border: 1px solid #ccc;
   margin-top: 2em;
+  padding-bottom: 4em;
 }
 
 .modal-content {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 600px;
   gap: 3em;
+  .art1 ul{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+  }
+  .art2 ul{
+    display: flex;
+    flex-direction: row;
+  }
   article {
     text-align: center;
   }
@@ -19,8 +29,12 @@
   ul {
     list-style: none;
     display: flex;
+    align-items: center;
     gap: 1em;
-    padding-bottom: 1.2em;
+    padding: .7em;
+    border-top: .5px solid #ccc;
+    border-bottom: .5px solid #ccc;
+    margin-bottom: 1em;
   }
   .dadosIniciais,
   li {
@@ -50,6 +64,19 @@
   max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
+}
+.template-selector{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  height: 2em;
+  align-items: center;
+  gap: 2em;
+  padding: 4em;
+}
+.modal-button button{
+  width: 100%;
 }
 
 @media print {

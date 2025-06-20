@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 500px;
   padding: 2em;
   input,
   select {
@@ -17,12 +16,20 @@
     font-size: 0.8em;
   }
 }
-.conclusão{
+.conclusão {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.checkbox{
+.checkbox {
   display: flex;
   gap: 20px;
+}
+.inserted-education li {
+  position: relative;
+}
+.remove {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

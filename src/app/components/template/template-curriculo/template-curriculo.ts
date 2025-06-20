@@ -15,6 +15,7 @@ export class TemplateCurriculo {
     skills: any[];
     educacao: any[];
     idiomas: any[];
+    idade: number | null;
   };
 
 }

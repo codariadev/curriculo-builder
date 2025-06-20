@@ -23,8 +23,8 @@
       </ng-container>
     </section>
   </section>
-  <section class="modal-buttons">
-    <button class="back" (click)="voltar()">Voltar</button>
+  <section class="modal-buttons" [ngClass]="{ 'centralizado': !exibirControles }">
+    <button *ngIf="exibirControles" class="back" (click)="voltar()">Voltar</button>
     <button class="add" (click)="adicionar()">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <path
@@ -32,6 +32,6 @@
         />
       </svg>
     </button>
-    <button class="foward" (click)="continuar()">Avançar</button>
+    <button *ngIf="exibirControles" class="foward" (click)="continuar()">Avançar</button>
   </section>
 </main>

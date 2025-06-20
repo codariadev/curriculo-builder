@@ -8,7 +8,7 @@
     <input class="nascimento" type="date" [(ngModel)]="nascimento"/>
     <input class="celular" type="text" mask="(00) 00000-0000" [(ngModel)]="contatoCel" placeholder="Celular"/>
   </section>
-  <section class="modal-buttons">
+  <section class="modal-buttons" *ngIf="exibirControles">
     <button class="foward" (click)="continuar()">Avançar</button>
   </section>
 </main>

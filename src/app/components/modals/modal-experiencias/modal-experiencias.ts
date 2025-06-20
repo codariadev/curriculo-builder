@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalService } from '../../../services/modal';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +20,8 @@ interface Experiencia {
   imports: [FormsModule, CommonModule, TextFieldModule],
 })
 export class ModalExperienciasComponent {
+  @Input() exibirControles: boolean = true;
+
   empresa = '';
   cargo = '';
   descricao = '';

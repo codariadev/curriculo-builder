@@ -29,7 +29,7 @@ export interface Inicio {
   providedIn: 'root'
 })
 export class ModalService {
-  currentStep: number = 5;
+  currentStep: number = 3;
   inicio: Inicio = {
     nome: '',
     nascimento: '',
@@ -44,6 +44,16 @@ export class ModalService {
   constructor() {
     this.carregarDadosTeste(); // carregar os dados automaticamente
   }
+
+
+  idade(): number | null {
+    if (!this.inicio.nascimento) return null;
+
+    const ano = parseInt(this.inicio.nascimento.split('-')[0], 10);
+    const anoAtual = new Date().getFullYear();
+    return anoAtual - ano;
+  }
+
 
   avancarEtapa() {
     this.currentStep++;
@@ -104,7 +114,7 @@ export class ModalService {
         instituicao: 'Fatec São Paulo',
         estado: 'SP',
         conclusao: '2023',
-        concluido: true
+        concluido: false
       },
       {
         tipo: 'Curso Técnico',

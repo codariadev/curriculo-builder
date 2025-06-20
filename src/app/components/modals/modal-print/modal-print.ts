@@ -31,13 +31,21 @@ export class ModalPrint {
   mostrarPreview = false;
   modalAberto: string | null = null;
 
+  getIdade(nascimento: string): number | null {
+  if (!nascimento) return null;
+  const anoNascimento = parseInt(nascimento.split('-')[0], 10);
+  const anoAtual = new Date().getFullYear();
+  return anoAtual - anoNascimento;
+}
+
   get dadosCompletos() {
   return {
     inicio: this.modalService.inicio,
     experiencias: this.modalService.experiencias,
     skills: this.modalService.skills,
     educacao: this.modalService.educacao,
-    idiomas: this.modalService.idiomas
+    idiomas: this.modalService.idiomas,
+    idade: this.getIdade(this.modalService.inicio.nascimento),
   };
 }
 
@@ -52,6 +60,9 @@ export class ModalPrint {
 
   abrirPreview() {
     this.mostrarPreview = true;
+  }
+   voltar() {
+    this.modalService.voltarEtapa();
   }
 
   imprimir () {
