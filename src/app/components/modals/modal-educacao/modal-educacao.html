@@ -5,7 +5,7 @@
     <section class="modal-content">
       <label for="tipo">
         Tipo de Educação
-        <select id="tipo" [(ngModel)]="tipoEducacao" name="tipo">
+        <select id="tipo" [(ngModel)]="btnFn.tipoEducacao" name="tipo">
           <option value="medio">Ensino Médio</option>
           <option value="tecnico">Técnico</option>
           <option value="graduacao">Graduação</option>
@@ -13,61 +13,71 @@
         </select>
       </label>
 
-      <ng-container [ngSwitch]="tipoEducacao">
+      <ng-container [ngSwitch]="btnFn.tipoEducacao">
         <div *ngSwitchCase="'medio'">
-          <label for="formacao"
-            >Formação
-            <select id="formacao" [(ngModel)]="formacao" name="formacao">
+          <label for="formacao">
+            Formação
+            <select id="formacao" [(ngModel)]="btnFn.formacao" name="formacao">
               <option value="ensino-medio-completo">Completo</option>
               <option value="ensino-medio-incompleto">Incompleto</option>
-            </select></label
-          >
+            </select>
+          </label>
         </div>
         <div *ngSwitchDefault>
-          <label for="formacao"
-            >Curso ou Formação
+          <label for="formacao">
+            Curso ou Formação
             <input
               id="formacao"
               type="text"
-              [(ngModel)]="formacao"
+              [(ngModel)]="btnFn.formacao"
               name="formacao"
-          /></label>
+            />
+          </label>
         </div>
       </ng-container>
 
-      <label for="instituicao"
-        >Instituição
+      <label for="instituicao">
+        Instituição
         <input
           id="instituicao"
           type="text"
-          [(ngModel)]="instituicao"
+          [(ngModel)]="btnFn.instituicao"
           name="instituicao"
-      /></label>
+        />
+      </label>
 
-      <label for="localizacao"
-        >Estado
-        <select id="localizacao" [(ngModel)]="localizacao" name="localizacao">
+      <label for="localizacao">
+        Estado
+        <select
+          id="localizacao"
+          [(ngModel)]="btnFn.localizacao"
+          name="localizacao"
+        >
           <option value="">Selecione um estado</option>
-          <option *ngFor="let estado of estados" [value]="estado.sigla">
+          <option *ngFor="let estado of btnFn.estados" [value]="estado.sigla">
             {{ estado.nome }}
           </option>
-        </select></label
-      >
+        </select>
+      </label>
 
       <div class="conclusão">
-        <label for="dataConclusao" *ngIf="concluido"
-          >Data de Conclusão
+        <label for="dataConclusao" *ngIf="btnFn.concluido">
+          Data de Conclusão
           <input
             class="dataConclusao-input"
             id="dataConclusao"
             type="date"
-            [(ngModel)]="dataConclusao"
+            [(ngModel)]="btnFn.dataConclusao"
             name="dataConclusao"
           />
         </label>
         <label class="checkbox">
           Concluído
-          <input type="checkbox" [(ngModel)]="concluido" name="concluido" />
+          <input
+            type="checkbox"
+            [(ngModel)]="btnFn.concluido"
+            name="concluido"
+          />
         </label>
       </div>
 
@@ -75,8 +85,11 @@
         <ul class="inserted-education">
           <li *ngFor="let educ of modalService.educacao">
             <div class="inserted-education-content">
-              <p><strong>Tipo:</strong> {{ educ.tipo }}</p>
-              <p><strong>Formação:</strong> {{ educ.formacao || '–––' }}</p>
+              <p><strong>Tipo:</strong> {{ trad(educ.tipo, mapTipo) }}</p>
+              <p>
+                <strong>Formação:</strong> {{ trad(educ.formacao, mapFormacao)
+                }}
+              </p>
               <p><strong>Instituição:</strong> {{ educ.instituicao }}</p>
               <p><strong>Estado:</strong> {{ educ.estado }}</p>
               <p>
@@ -86,34 +99,48 @@
                 {{ educ.concluido ? educ.conclusao : '' }}
               </p>
             </div>
-            <button class="remove" (click)="remover(educ)">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+
+            <button class='remove' (click)="btnFn.removerEdu(educ)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path
                   d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"
                 />
-              </svg>
+              </svg></button>
+            <button
+              *ngIf="btnFn.editandoItem !== educ.id"
+              (click)="btnFn.editarEdu(educ)"
+            >
+              Editar
+            </button>
+            <button
+              *ngIf="btnFn.editandoItem === educ.id"
+              (click)="btnFn.salvarEdu()"
+            >
+              Salvar
             </button>
           </li>
         </ul>
       </ng-container>
     </section>
   </section>
-
   <section
     class="modal-buttons"
     [ngClass]="{ 'centralizado': !exibirControles }"
   >
-    <button *ngIf="exibirControles" class="back" (click)="voltar()">
+    <button *ngIf="exibirControles" class="back" (click)="btnFn.voltar()">
       Voltar
     </button>
-    <button class="add" (click)="adicionar()">
+    <button class="add" (click)="btnFn.adicionarEdu()">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <path
           d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
         />
       </svg>
     </button>
-    <button *ngIf="exibirControles" class="foward" (click)="continuar()">
+    <button
+      *ngIf="exibirControles"
+      class="foward"
+      (click)="btnFn.continuarPadrao()"
+    >
       Avançar
     </button>
   </section>

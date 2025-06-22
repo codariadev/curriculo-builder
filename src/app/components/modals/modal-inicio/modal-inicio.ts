@@ -3,6 +3,7 @@ import { ModalService } from '../../../services/modal';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { ButtonFunctionsService } from '../../utils/global-functions';
 
 interface Nome {
   nome: string;
@@ -22,31 +23,50 @@ interface Nome {
 export class ModalInicioComponent implements OnInit {
   @Input() exibirControles: boolean = true;
   nome = '';
-  nascimento = '';
+  nascimento: Date | null = null;
   contatoCel = '';
   contatoEmail = '';
 
-  constructor(public modalService: ModalService) {}
+  constructor(
+    public modalService: ModalService,
+    public btnFn: ButtonFunctionsService
+  ) {}
 
   ngOnInit() {
     const dados = this.modalService.inicio;
     this.nome = dados.nome;
-    this.nascimento = dados.nascimento;
+    this.nascimento = dados.nascimento ? new Date(dados.nascimento) : null;
     this.contatoCel = dados.contatoCel.toString();
     this.contatoEmail = dados.contatoEmail;
   }
 
-  continuar() {
-    this.modalService.inicio = {
-      nome: this.nome,
-      nascimento: this.nascimento,
-      contatoCel: Number(this.contatoCel),
-      contatoEmail: this.contatoEmail,
-    };
-    this.modalService.avancarEtapa();
+  onNascimentoChange(value: string) {
+    const partes = value.split('/');
+    if (partes.length === 3) {
+      const dia = Number(partes[0]);
+      const mes = Number(partes[1]) - 1; // meses 0-based
+      const ano = Number(partes[2]);
+      this.nascimento = new Date(ano, mes, dia);
+    } else {
+      this.nascimento = null;
+    }
   }
 
-  voltar() {
-    this.modalService.voltarEtapa();
+  continuar() {
+  let nascimentoStr = '';
+
+  if (this.nascimento instanceof Date) {
+    const ano = this.nascimento.getFullYear();
+    const mes = (this.nascimento.getMonth() + 1).toString().padStart(2, '0');
+    const dia = this.nascimento.getDate().toString().padStart(2, '0');
+    nascimentoStr = `${ano}-${mes}-${dia}`;  // formato ISO yyyy-MM-dd
   }
+
+  this.btnFn.continuarInicio({
+    nome: this.nome,
+    nascimento: nascimentoStr,
+    contatoCel: this.contatoCel,
+    contatoEmail: this.contatoEmail,
+  });
+}
 }

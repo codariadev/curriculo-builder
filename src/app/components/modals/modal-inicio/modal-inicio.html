@@ -4,11 +4,33 @@
   </section>
   <section class="modal-content">
     <input class="nome" [(ngModel)]="nome" placeholder="Insira seu nome" />
-    <input class="email" type="text" [(ngModel)]="contatoEmail" placeholder="Email"/>
-    <input class="nascimento" type="date" [(ngModel)]="nascimento"/>
-    <input class="celular" type="text" mask="(00) 00000-0000" [(ngModel)]="contatoCel" placeholder="Celular"/>
+    <input
+      class="email"
+      type="text"
+      [(ngModel)]="contatoEmail"
+      placeholder="Email"
+    />
+    <input
+      type="text"
+      mask="00/00/0000"
+      [ngModel]="nascimento ? (nascimento | date:'dd/MM/yyyy') : ''"
+      (ngModelChange)="onNascimentoChange($event)"
+      placeholder="dd/MM/aaaa"
+    />
+    <input
+      class="celular"
+      type="text"
+      mask="(00) 00000-0000"
+      [(ngModel)]="contatoCel"
+      placeholder="(00) 00000-0000"
+    />
   </section>
   <section class="modal-buttons" *ngIf="exibirControles">
-    <button class="foward" (click)="continuar()">Avançar</button>
+    <button
+      class="foward"
+      (click)="continuar()"
+    >
+      Avançar
+    </button>
   </section>
 </main>

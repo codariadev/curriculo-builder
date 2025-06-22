@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ModalService } from '../../../services/modal';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ButtonFunctionsService } from '../../utils/global-functions';
 
 @Component({
   selector: 'app-modal-skills',
@@ -13,25 +14,6 @@ export class ModalSkillsComponent {
   @Input() exibirControles: boolean = true;
   skill = '';
 
-  constructor(public modalService: ModalService) {}
+  constructor(public modalService: ModalService, public btnFn: ButtonFunctionsService) {}
 
-  adicionar() {
-    if (this.skill.trim()) {
-      this.modalService.skills.push(this.skill);
-      this.skill = '';
-    }
-  }
-  remover(skill: string): void {
-    const index = this.modalService.skills.indexOf(skill);
-    if (index > -1) {
-      this.modalService.skills.splice(index, 1)
-    }
-  }
-
-  continuar() {
-    this.modalService.avancarEtapa();
-  }
-  voltar() {
-    this.modalService.voltarEtapa();
-  }
 }

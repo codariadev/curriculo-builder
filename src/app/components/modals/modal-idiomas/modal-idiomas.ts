@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ModalService } from '../../../services/modal';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ButtonFunctionsService } from '../../utils/global-functions';
 
 @Component({
   selector: 'app-modal-idiomas',
@@ -13,25 +14,6 @@ export class ModalIdiomasComponent {
   @Input() exibirControles: boolean = true;
   idioma = '';
 
-  constructor(public modalService: ModalService) {}
+  constructor(public modalService: ModalService, public btnFn: ButtonFunctionsService) {}
 
-  adicionar() {
-    if (this.idioma.trim()) {
-      this.modalService.idiomas.push(this.idioma);
-      this.idioma = '';
-    }
-  }
-  remover(idioma: string): void {
-    const index = this.modalService.idiomas.indexOf(idioma);
-    if (index > -1) {
-      this.modalService.idiomas.splice(index, 1)
-    }
-  }
-  voltar() {
-    this.modalService.voltarEtapa();
-  }
-
-  continuar() {
-    this.modalService.avancarEtapa();
-  }
 }

@@ -26,7 +26,24 @@ import { PreviewModalComponent } from '../modal-preview/modal-preview';
   templateUrl: './modal-print.html',
   styleUrl: './modal-print.css',
 })
+
 export class ModalPrint {
+
+  formatarCelular(numero: string): string {
+  if (!numero) return '';
+  const digits = numero.replace(/\D/g, '');
+
+  if (digits.length === 11) {
+    return `(${digits.substr(0,2)}) ${digits.substr(2,5)}-${digits.substr(7,4)}`;
+  }
+
+  if (digits.length === 10) {
+    return `(${digits.substr(0,2)}) ${digits.substr(2,4)}-${digits.substr(6,4)}`;
+  }
+
+  return numero;
+}
+
   templateSelecionado = 'classico';
   mostrarPreview = false;
   modalAberto: string | null = null;

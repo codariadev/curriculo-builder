@@ -10,6 +10,7 @@ export interface Experiencia {
 }
 
 export interface Educacao {
+  id: string;
   tipo: string;
   formacao: string;
   instituicao: string;
@@ -21,7 +22,7 @@ export interface Educacao {
 export interface Inicio {
   nome: string;
   nascimento: string;
-  contatoCel: number;
+  contatoCel: string;
   contatoEmail: string;
 }
 
@@ -29,31 +30,26 @@ export interface Inicio {
   providedIn: 'root'
 })
 export class ModalService {
-  currentStep: number = 3;
+  currentStep: number = 0;
+
   inicio: Inicio = {
     nome: '',
     nascimento: '',
-    contatoCel: 0,
+    contatoCel: '',
     contatoEmail: ''
   };
+
   experiencias: Experiencia[] = [];
   skills: string[] = [];
   educacao: Educacao[] = [];
   idiomas: string[] = [];
 
-  constructor() {
-    this.carregarDadosTeste(); // carregar os dados automaticamente
-  }
-
-
   idade(): number | null {
     if (!this.inicio.nascimento) return null;
-
     const ano = parseInt(this.inicio.nascimento.split('-')[0], 10);
     const anoAtual = new Date().getFullYear();
     return anoAtual - ano;
   }
-
 
   avancarEtapa() {
     this.currentStep++;
@@ -65,13 +61,15 @@ export class ModalService {
 
   resetar() {
     this.currentStep = 0;
-    this.inicio = { nome: '', nascimento: '', contatoCel: 0, contatoEmail: '' };
+    this.inicio = { nome: '', nascimento: '', contatoCel: '', contatoEmail: '' };
     this.experiencias = [];
     this.skills = [];
     this.educacao = [];
     this.idiomas = [];
   }
 
+  // Caso queira usar dados de teste, pode descomentar este método
+  /*
   carregarDadosTeste() {
     this.inicio = {
       nome: 'Lucas Eduardo',
@@ -109,7 +107,8 @@ export class ModalService {
 
     this.educacao = [
       {
-        tipo: 'Graduação',
+        id: '1',
+        tipo: 'graduacao',
         formacao: 'Análise e Desenvolvimento de Sistemas',
         instituicao: 'Fatec São Paulo',
         estado: 'SP',
@@ -117,8 +116,9 @@ export class ModalService {
         concluido: false
       },
       {
-        tipo: 'Curso Técnico',
-        formacao: 'Informática para Internet',
+        id: '2',
+        tipo: 'medio',
+        formacao: 'ensino-medio-completo',
         instituicao: 'ETEC',
         estado: 'SP',
         conclusao: '2019',
@@ -128,4 +128,5 @@ export class ModalService {
 
     this.idiomas = ['Português', 'Inglês', 'Espanhol'];
   }
+  */
 }

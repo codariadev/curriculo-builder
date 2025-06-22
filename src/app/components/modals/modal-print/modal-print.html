@@ -13,7 +13,8 @@
           <strong>Idade: </strong>{{ dadosCompletos.idade}}
         </li>
         <li class="dadosIniciais">
-          <strong>Celular: </strong>{{ modalService.inicio.contatoCel }}
+          <strong>Celular: </strong>{{
+          formatarCelular(modalService.inicio.contatoCel) }}
         </li>
         <li class="dadosIniciais">
           <strong>Email: </strong>{{ modalService.inicio.contatoEmail }}
@@ -66,9 +67,8 @@
     </article>
 
     <section class="modal-button">
-    <button class="back" (click)="voltar()">Voltar</button>
-  </section>
-
+      <button class="back" (click)="voltar()">Voltar</button>
+    </section>
   </section>
 
   <section class="template-selector">
@@ -119,7 +119,4 @@
     (confirmar)="imprimir()"
   >
   </app-modal-preview>
-
-
-
 </main>
