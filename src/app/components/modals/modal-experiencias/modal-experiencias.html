@@ -13,17 +13,21 @@
     <input class="cargo" [(ngModel)]="cargo" placeholder="Cargo" />
 
     <input
-      class="data"
-      type="date"
+      type="text"
+      mask="00/00/0000"
       [(ngModel)]="dataInicio"
-      placeholder="Data de início"
+      placeholder="DD/MM/AAAA"
+      required
+      #nascimentoRef="ngModel"
     />
 
     <input
-      class="data"
-      type="date"
+      type="text"
+      mask="00/00/0000"
       [(ngModel)]="dataFim"
-      placeholder="Data de término"
+      placeholder="DD/MM/AAAA"
+      required
+      #nascimentoRef="ngModel"
     />
 
     <label class="checkbox">
@@ -72,7 +76,7 @@
     <button
       class="add"
       (click)="btnFn.adicionarExp(empresa, cargo, descricao, dataInicio, dataFim, atual);
-           empresa=''; cargo=''; descricao=''; dataInicio=''; dataFim=''; atual=false;"
+           empresa=''; cargo=''; descricao=''; dataInicio=null; dataFim=null; atual=false;"
     >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <path

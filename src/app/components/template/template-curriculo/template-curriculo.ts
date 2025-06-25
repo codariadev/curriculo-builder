@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ButtonFunctionsService } from '../../utils/global-functions';
+import { ModalService } from '../../../services/modal';
 
 @Component({
   selector: 'app-template-curriculo',
@@ -8,6 +10,9 @@ import { Component, Input} from '@angular/core';
   styleUrl: './template-curriculo.css',
 })
 export class TemplateCurriculo {
+
+  constructor(public btnFn: ButtonFunctionsService, public modalservice: ModalService){}
+
   @Input() tipoTemplate = 'classico';
   @Input() dados?: {
     inicio: any;
@@ -19,4 +24,3 @@ export class TemplateCurriculo {
   };
 
 }
-

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ModalService, Experiencia, Educacao } from '../../services/modal';
+import {
+  ModalService,
+  Experiencia,
+  Educacao,
+  Inicio,
+} from '../../services/modal';
 
 @Injectable({
   providedIn: 'root',
@@ -53,22 +58,21 @@ export class ButtonFunctionsService {
 
   constructor(private modalService: ModalService) {}
 
-  continuarInicio(dados?: {
+  continuarInicio(
+    nome: string,
+    nascimento: number | null,
+    contatoCel: string,
+    contatoEmail: string
+  ) {
+    const init: Inicio = {
+      nome,
+      nascimento,
+      contatoCel,
+      contatoEmail,
+    };
 
-    nome: string;
-    nascimento: string;
-    contatoCel: string;
-    contatoEmail: string;
-
-  }): void {
-    if (dados) {
-      this.modalService.inicio = {
-        nome: dados.nome,
-        nascimento: dados.nascimento,
-        contatoCel: dados.contatoCel,
-        contatoEmail: dados.contatoEmail,
-      };
-    }
+    this.modalService.inicio = (init)
+    console.log('Inicio salvo:', this.modalService.inicio);
     this.modalService.avancarEtapa();
   }
 
@@ -80,8 +84,8 @@ export class ButtonFunctionsService {
     empresa: string,
     cargo: string,
     descricao: string,
-    dataInicio: string,
-    dataFim: string,
+    dataInicio: number | null,
+    dataFim: number | null,
     atual: boolean
   ) {
     const exp: Experiencia = {
@@ -94,6 +98,7 @@ export class ButtonFunctionsService {
     };
 
     this.modalService.experiencias.push(exp);
+    console.log(this.modalService.experiencias);
 
     // Limpar campos
     this.empresa = '';
@@ -154,7 +159,9 @@ export class ButtonFunctionsService {
   }
 
   removerEdu(educacao: Educacao): void {
-    const index = this.modalService.educacao.findIndex(e => e.id === educacao.id);
+    const index = this.modalService.educacao.findIndex(
+      (e) => e.id === educacao.id
+    );
     if (index > -1) {
       this.modalService.educacao.splice(index, 1);
     }
@@ -177,7 +184,9 @@ export class ButtonFunctionsService {
   salvarEdu() {
     if (!this.editandoItem) return;
 
-    const index = this.modalService.educacao.findIndex(e => e.id === this.editandoItem);
+    const index = this.modalService.educacao.findIndex(
+      (e) => e.id === this.editandoItem
+    );
     if (index === -1) return;
 
     this.modalService.educacao[index] = {
@@ -192,6 +201,7 @@ export class ButtonFunctionsService {
     };
 
     this.editandoItem = null;
+
     this.resetCampos();
   }
 
@@ -206,5 +216,16 @@ export class ButtonFunctionsService {
     this.localizacao = '';
     this.dataConclusao = '';
     this.concluido = false;
+  }
+
+  mapTipo: Record<string, string> = {
+    medio: 'Ensino Médio',
+    tecnico: 'Técnico',
+    graduacao: 'Graduação',
+    pos: 'Pós-graduação',
+  };
+
+  trad(chave: string, mapa: Record<string, string>): string {
+    return mapa[chave] ?? chave;
   }
 }

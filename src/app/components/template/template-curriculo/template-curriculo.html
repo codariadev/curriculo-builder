@@ -28,7 +28,37 @@
         <h2>Educação</h2>
         <ul>
           <li *ngFor="let edu of dados?.educacao">
-            {{ edu.formacao }} - {{ edu.instituicao }}
+            <ng-container *ngIf="edu.tipo === 'medio'; else outrasFormacoes">
+              <ul class="eduLista">
+                <li>
+                  <strong>Ensino Médio:</strong>
+                  {{edu.concluido ? 'Completo':'Incompleto'}} -
+                  {{edu.instituicao}}
+                </li>
+                <ul>
+                  <li>Instituicao: {{edu.instituicao}}</li>
+                  <strong *ngIf="edu.concluido">Conclusão:</strong>
+                  <strong *ngIf="!edu.concluido">Em andamento</strong>
+                </ul>
+              </ul>
+            </ng-container>
+            <ng-template #outrasFormacoes>
+              <ul class="eduLista">
+                <li>
+                  <strong>{{ btnFn.trad(edu.tipo, btnFn.mapTipo) }}</strong>:
+                  {{edu.formacao}}
+                </li>
+                <ul>
+                  <li>Instituicao: {{edu.instituicao}}</li>
+                  <li>
+                    <strong *ngIf="edu.concluido"
+                      >Conclusão: {{edu.conclusao}}
+                    </strong>
+                    <strong *ngIf="!edu.concluido">Em andamento</strong>
+                  </li>
+                </ul>
+              </ul>
+            </ng-template>
           </li>
         </ul>
       </section>

@@ -9,13 +9,16 @@
       type="text"
       [(ngModel)]="contatoEmail"
       placeholder="Email"
+      required
+      #ncontatoEmailRef="ngModel"
     />
     <input
       type="text"
       mask="00/00/0000"
-      [ngModel]="nascimento ? (nascimento | date:'dd/MM/yyyy') : ''"
-      (ngModelChange)="onNascimentoChange($event)"
-      placeholder="dd/MM/aaaa"
+      [(ngModel)]="nascimento"
+      placeholder="DD/MM/AAAA"
+      required
+      #nascimentoRef="ngModel"
     />
     <input
       class="celular"
@@ -23,14 +26,11 @@
       mask="(00) 00000-0000"
       [(ngModel)]="contatoCel"
       placeholder="(00) 00000-0000"
+      required
+      #contatoCelRef="ngModel"
     />
   </section>
   <section class="modal-buttons" *ngIf="exibirControles">
-    <button
-      class="foward"
-      (click)="continuar()"
-    >
-      Avançar
-    </button>
+    <button class="foward" (click)="btnFn.continuarInicio(nome, nascimento, contatoCel, contatoEmail )">Avançar</button>
   </section>
 </main>

@@ -21,50 +21,80 @@ import { PreviewModalComponent } from '../modal-preview/modal-preview';
     ModalIdiomasComponent,
     ModalInicioComponent,
     ModalSkillsComponent,
-    PreviewModalComponent
+    PreviewModalComponent,
   ],
   templateUrl: './modal-print.html',
   styleUrl: './modal-print.css',
 })
-
 export class ModalPrint {
+  ngOnInit() {
+    console.log(this.modalService.inicio, this.modalService.experiencias, this.modalService.educacao, this.modalService.idiomas, this.modalService.skills)
+  }
 
   formatarCelular(numero: string): string {
-  if (!numero) return '';
-  const digits = numero.replace(/\D/g, '');
+    if (!numero) return '';
+    const digits = numero.replace(/\D/g, '');
 
-  if (digits.length === 11) {
-    return `(${digits.substr(0,2)}) ${digits.substr(2,5)}-${digits.substr(7,4)}`;
+    if (digits.length === 11) {
+      return `(${digits.substr(0, 2)}) ${digits.substr(2, 5)}-${digits.substr(
+        7,
+        4
+      )}`;
+    }
+
+    if (digits.length === 10) {
+      return `(${digits.substr(0, 2)}) ${digits.substr(2, 4)}-${digits.substr(
+        6,
+        4
+      )}`;
+    }
+
+    return numero;
   }
-
-  if (digits.length === 10) {
-    return `(${digits.substr(0,2)}) ${digits.substr(2,4)}-${digits.substr(6,4)}`;
-  }
-
-  return numero;
-}
 
   templateSelecionado = 'classico';
   mostrarPreview = false;
   modalAberto: string | null = null;
 
-  getIdade(nascimento: string): number | null {
-  if (!nascimento) return null;
-  const anoNascimento = parseInt(nascimento.split('-')[0], 10);
-  const anoAtual = new Date().getFullYear();
-  return anoAtual - anoNascimento;
-}
-
   get dadosCompletos() {
-  return {
-    inicio: this.modalService.inicio,
-    experiencias: this.modalService.experiencias,
-    skills: this.modalService.skills,
-    educacao: this.modalService.educacao,
-    idiomas: this.modalService.idiomas,
-    idade: this.getIdade(this.modalService.inicio.nascimento),
-  };
-}
+    const nascimento = this.modalService.inicio.nascimento;
+    if (nascimento == null) {
+      return {
+        inicio: this.modalService.inicio,
+        experiencias: this.modalService.experiencias,
+        skills: this.modalService.skills,
+        educacao: this.modalService.educacao,
+        idiomas: this.modalService.idiomas,
+        idade: null,
+      };
+    }
+
+    const nascimentoStr = nascimento.toString();
+
+    if (nascimentoStr.length < 8) {
+      return {
+        inicio: this.modalService.inicio,
+        experiencias: this.modalService.experiencias,
+        skills: this.modalService.skills,
+        educacao: this.modalService.educacao,
+        idiomas: this.modalService.idiomas,
+        idade: null,
+      };
+    }
+
+    const ano = Number(nascimentoStr.substring(4, 8));
+    const anoAtual = new Date().getFullYear();
+    const idade = anoAtual - ano;
+
+    return {
+      inicio: this.modalService.inicio,
+      experiencias: this.modalService.experiencias,
+      skills: this.modalService.skills,
+      educacao: this.modalService.educacao,
+      idiomas: this.modalService.idiomas,
+      idade: null,
+    };
+  }
 
   constructor(public modalService: ModalService) {}
 
@@ -78,11 +108,11 @@ export class ModalPrint {
   abrirPreview() {
     this.mostrarPreview = true;
   }
-   voltar() {
+  voltar() {
     this.modalService.voltarEtapa();
   }
 
-  imprimir () {
+  imprimir() {
     setTimeout(() => {
       const area = document.getElementById('area-impressao');
       const conteudo = area?.innerHTML;
@@ -95,5 +125,16 @@ export class ModalPrint {
         window.location.reload();
       }
     }, 100);
+  }
+
+  mapTipo: Record<string, string> = {
+    medio: 'Ensino Médio',
+    tecnico: 'Técnico',
+    graduacao: 'Graduação',
+    pos: 'Pós-graduação',
+  };
+
+  trad(chave: string, mapa: Record<string, string>): string {
+    return mapa[chave] ?? chave;
   }
 }

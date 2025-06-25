@@ -47,7 +47,14 @@
     <article class="art4">
       <h2>Educação:</h2>
       <ul *ngFor="let edu of modalService.educacao">
-        <li>{{ edu.formacao }} - {{ edu.instituicao }}</li>
+        <li>
+          <ng-container *ngIf="edu.tipo === 'medio'; else outrasFormacoes">
+            Ensino Médio: {{edu.concluido ? 'Completo':'Incompleto'}} - {{edu.instituicao}}
+          </ng-container>
+          <ng-template #outrasFormacoes>
+            {{trad(edu.tipo, mapTipo)}}: {{edu.formacao}} - {{edu.instituicao}}
+          </ng-template>
+        </li>
         <li>
           {{edu.estado}} |
           <strong *ngIf="edu.concluido">Conclusão:</strong>

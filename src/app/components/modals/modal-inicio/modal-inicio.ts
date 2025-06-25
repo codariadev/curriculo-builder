@@ -5,13 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ButtonFunctionsService } from '../../utils/global-functions';
 
-interface Nome {
-  nome: string;
-  nascimento: string;
-  contatoCel: string;
-  contatoEmail: string;
-}
-
 @Component({
   selector: 'app-modal-inicio',
   templateUrl: './modal-inicio.html',
@@ -21,9 +14,13 @@ interface Nome {
   providers: [provideNgxMask({ dropSpecialCharacters: true })],
 })
 export class ModalInicioComponent implements OnInit {
+  ngOnInit(): void {
+
+  }
   @Input() exibirControles: boolean = true;
+
   nome = '';
-  nascimento: Date | null = null;
+  nascimento: number | null = null;
   contatoCel = '';
   contatoEmail = '';
 
@@ -32,41 +29,25 @@ export class ModalInicioComponent implements OnInit {
     public btnFn: ButtonFunctionsService
   ) {}
 
-  ngOnInit() {
-    const dados = this.modalService.inicio;
-    this.nome = dados.nome;
-    this.nascimento = dados.nascimento ? new Date(dados.nascimento) : null;
-    this.contatoCel = dados.contatoCel.toString();
-    this.contatoEmail = dados.contatoEmail;
-  }
+  continuar() {
+    if (!this.nome.trim()) {
+      alert('Preencha seu nome.');
+      return;
+    }
 
-  onNascimentoChange(value: string) {
-    const partes = value.split('/');
-    if (partes.length === 3) {
-      const dia = Number(partes[0]);
-      const mes = Number(partes[1]) - 1; // meses 0-based
-      const ano = Number(partes[2]);
-      this.nascimento = new Date(ano, mes, dia);
-    } else {
-      this.nascimento = null;
+    if (!this.contatoEmail.trim()) {
+      alert('Preencha seu email.');
+      return;
+    }
+
+    if (this.nascimento === null || this.nascimento.toString().length !== 8) {
+      alert('Data de nascimento inválida. Necessita 8 números.');
+      return;
+    }
+
+    if (!this.contatoCel || this.contatoCel.toString().length !== 11) {
+      alert('Formato de celular inválido. Necessita 11 números.');
+      return;
     }
   }
-
-  continuar() {
-  let nascimentoStr = '';
-
-  if (this.nascimento instanceof Date) {
-    const ano = this.nascimento.getFullYear();
-    const mes = (this.nascimento.getMonth() + 1).toString().padStart(2, '0');
-    const dia = this.nascimento.getDate().toString().padStart(2, '0');
-    nascimentoStr = `${ano}-${mes}-${dia}`;  // formato ISO yyyy-MM-dd
-  }
-
-  this.btnFn.continuarInicio({
-    nome: this.nome,
-    nascimento: nascimentoStr,
-    contatoCel: this.contatoCel,
-    contatoEmail: this.contatoEmail,
-  });
-}
 }

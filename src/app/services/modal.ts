@@ -4,8 +4,8 @@ export interface Experiencia {
   empresa: string;
   cargo: string;
   descricao: string;
-  dataInicio: string;
-  dataFim: string;
+  dataInicio: number| null;
+  dataFim: number | null;
   atual: boolean;
 }
 
@@ -21,22 +21,22 @@ export interface Educacao {
 
 export interface Inicio {
   nome: string;
-  nascimento: string;
+  nascimento: number | null;
   contatoCel: string;
   contatoEmail: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ModalService {
   currentStep: number = 0;
 
   inicio: Inicio = {
     nome: '',
-    nascimento: '',
+    nascimento: null,
     contatoCel: '',
-    contatoEmail: ''
+    contatoEmail: '',
   };
 
   experiencias: Experiencia[] = [];
@@ -44,12 +44,12 @@ export class ModalService {
   educacao: Educacao[] = [];
   idiomas: string[] = [];
 
-  idade(): number | null {
-    if (!this.inicio.nascimento) return null;
-    const ano = parseInt(this.inicio.nascimento.split('-')[0], 10);
-    const anoAtual = new Date().getFullYear();
-    return anoAtual - ano;
-  }
+  // idade(): number | null {
+  //   if (!this.inicio.nascimento) return null;
+  //   const ano = parseInt(this.inicio.nascimento.split('-')[0], 10);
+  //   const anoAtual = new Date().getFullYear();
+  //   return anoAtual - ano;
+  // }
 
   avancarEtapa() {
     this.currentStep++;
@@ -61,7 +61,12 @@ export class ModalService {
 
   resetar() {
     this.currentStep = 0;
-    this.inicio = { nome: '', nascimento: '', contatoCel: '', contatoEmail: '' };
+    this.inicio = {
+      nome: '',
+      nascimento: null,
+      contatoCel: '',
+      contatoEmail: '',
+    };
     this.experiencias = [];
     this.skills = [];
     this.educacao = [];
