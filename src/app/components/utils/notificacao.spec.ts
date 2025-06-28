@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ButtonFunctionsService } from './global-functions';
+import { NotificacaoService } from './notificacao';
 
-describe('ButtonFunctionsService', () => {
-  let service: ButtonFunctionsService;
+describe('NotificacaoService', () => {
+  let service: NotificacaoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ButtonFunctionsService);
+    service = TestBed.inject(NotificacaoService);
   });
 
   it('should be created', () => {

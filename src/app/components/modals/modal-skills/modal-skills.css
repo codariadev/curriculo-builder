@@ -9,7 +9,6 @@
   }
 }
 .modal-content ul {
-  width: 500px;
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;

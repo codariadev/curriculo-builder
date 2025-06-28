@@ -15,7 +15,6 @@ import { ButtonFunctionsService } from '../../utils/global-functions';
 })
 export class ModalInicioComponent implements OnInit {
   ngOnInit(): void {
-
   }
   @Input() exibirControles: boolean = true;
 

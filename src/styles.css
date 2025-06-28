@@ -13,8 +13,9 @@ body {
   justify-content: center;
 }
 .main-container {
-  min-width: 500px;
+  min-width: 800px;
   min-height: 100%;
+  width: 500px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -31,6 +32,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 2em 0;
+    width: 100%;
   }
   input,
   textarea,
@@ -52,11 +54,11 @@ body {
   }
 }
 .modal-buttons {
+  width: 100%;
+  margin-bottom: 10px;
   display: flex;
-  width: 100%;
   justify-content: space-between;
-  width: 100%;
-  padding: 2em 3em;
+  padding-top: 2em;
   .add {
     width: var(--botao-altura);
     background-color: green;
@@ -74,7 +76,8 @@ body {
   justify-content: center;
   gap: 1.5em;
 }
-.inserted-exp, .inserted-education {
+.inserted-exp,
+.inserted-education {
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
@@ -95,11 +98,12 @@ body {
   }
 }
 
-.exp-content, .inserted-education-content {
+.exp-content,
+.inserted-education-content {
   flex-direction: column;
   display: flex;
 }
-.remove{
+.remove {
   background: none;
   border: none;
   padding: 0.2em;
@@ -110,7 +114,9 @@ body {
     height: 100%;
   }
 }
-.modal-buttons button, .button, .modal-button button {
+.modal-buttons button,
+.button,
+.modal-button button {
   border: none;
   outline: none;
   cursor: pointer;
@@ -133,4 +139,34 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.toast {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeOut 4s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }

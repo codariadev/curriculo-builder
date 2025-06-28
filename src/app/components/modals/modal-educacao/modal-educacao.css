@@ -3,10 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 2em;
-  input,
-  select {
-    width: 65%;
-  }
+  width: 100%;
 
   label {
     display: flex;
@@ -15,16 +12,26 @@
     align-items: center;
     font-size: 0.8em;
   }
+  input,
+  select {
+    width: 500px;
+  }
 }
-.conclusão {
+.conclusao{
+gap: 2em;
+display: flex;
+align-items: center;
+justify-content: center;
+.dataConclusao input{
+  margin-left: 2em;
+  width: 150px;
+}
+.checkbox{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 30%;
 }
-.checkbox {
-  display: flex;
-  gap: 20px;
 }
+
 .inserted-education li {
   position: relative;
 }

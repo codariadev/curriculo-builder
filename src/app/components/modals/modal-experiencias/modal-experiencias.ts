@@ -11,7 +11,6 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
   templateUrl: './modal-experiencias.html',
   styleUrls: ['./modal-experiencias.css'],
   imports: [FormsModule, CommonModule, TextFieldModule, NgxMaskDirective],
-  providers: [provideNgxMask()]
 })
 export class ModalExperienciasComponent {
   @Input() exibirControles: boolean = true;
@@ -24,8 +23,8 @@ export class ModalExperienciasComponent {
   empresa = '';
   cargo = '';
   descricao = '';
-  dataInicio: number | null = null;
-  dataFim: number | null = null;
+  dataInicio= '';
+  dataFim= '';
 
 
   atual = false;

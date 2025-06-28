@@ -10,7 +10,7 @@
           <strong>Nome: </strong>{{ modalService.inicio.nome }}
         </li>
         <li class="dadosIniciais">
-          <strong>Idade: </strong>{{ dadosCompletos.idade}}
+          <strong>Idade: </strong>{{ modalService.idade() ?? 'Não informado'}}
         </li>
         <li class="dadosIniciais">
           <strong>Celular: </strong>{{
@@ -22,6 +22,7 @@
       </ul>
 
       <button class="button" (click)="abrirModal('inicio')">Editar</button>
+      <div class="limitContent"></div>
     </article>
 
     <article class="art2">
@@ -29,11 +30,15 @@
       <ul *ngFor="let exp of modalService.experiencias">
         <li>Empresa: {{ exp.empresa }} <br /></li>
         <li>Cargo: {{ exp.cargo }}</li>
-        <li>De: {{exp.dataInicio}} até {{exp.dataFim}}.</li>
+        <div class="expData">
+          <li>De: {{exp.dataInicio}}</li>
+          <li>Até {{exp.dataFim}}.</li>
+        </div>
       </ul>
       <button class="button" (click)="abrirModal('experiencias')">
         Editar
       </button>
+      <div class="limitContent"></div>
     </article>
 
     <article class="art3">
@@ -41,28 +46,32 @@
       <ul>
         <li *ngFor="let skill of modalService.skills">{{ skill }}</li>
       </ul>
-      <button class="button" (click)="abrirModal('Habilidades')">Editar</button>
+      <button class="button" (click)="abrirModal('skills')">Editar</button>
+      <div class="limitContent"></div>
     </article>
-
     <article class="art4">
       <h2>Educação:</h2>
-      <ul *ngFor="let edu of modalService.educacao">
-        <li>
-          <ng-container *ngIf="edu.tipo === 'medio'; else outrasFormacoes">
-            Ensino Médio: {{edu.concluido ? 'Completo':'Incompleto'}} - {{edu.instituicao}}
-          </ng-container>
-          <ng-template #outrasFormacoes>
-            {{trad(edu.tipo, mapTipo)}}: {{edu.formacao}} - {{edu.instituicao}}
-          </ng-template>
-        </li>
-        <li>
-          {{edu.estado}} |
-          <strong *ngIf="edu.concluido">Conclusão:</strong>
-          <strong *ngIf="!edu.concluido">Em andamento</strong>
-          {{ edu.concluido ? edu.conclusao + '.' : '' }}
+      <ul>
+        <li *ngFor="let edu of modalService.educacao">
+          <div>
+            <ng-container *ngIf="edu.tipo === 'medio'; else outrasFormacoes">
+              Ensino Médio: {{ edu.concluido ? 'Completo' : 'Incompleto' }} - {{
+              edu.instituicao }}
+            </ng-container>
+            <ng-template #outrasFormacoes>
+              {{ trad(edu.tipo, mapTipo) }}: {{ edu.formacao }} - {{
+              edu.instituicao }}
+            </ng-template>
+          </div>
+          <div class="expData">
+            <span>{{ edu.estado }}</span>
+            <span *ngIf="edu.concluido">Conclusão: {{ edu.conclusao }}.</span>
+            <span *ngIf="!edu.concluido">Em andamento</span>
+          </div>
         </li>
       </ul>
       <button class="button" (click)="abrirModal('educacao')">Editar</button>
+      <div class="limitContent"></div>
     </article>
 
     <article class="art5">
@@ -71,6 +80,7 @@
         <li *ngFor="let idioma of modalService.idiomas">{{ idioma }}</li>
       </ul>
       <button class="button" (click)="abrirModal('idiomas')">Editar</button>
+      <div class="limitContent"></div>
     </article>
 
     <section class="modal-button">
@@ -126,4 +136,8 @@
     (confirmar)="imprimir()"
   >
   </app-modal-preview>
+
+  <div class="notifications" *ngIf="notificacaoAtiva">
+    <div class="toast">{{ mensagemNotificacao }}</div>
+  </div>
 </main>

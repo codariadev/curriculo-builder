@@ -3,7 +3,7 @@
     <main class="template-classico">
       <section class="topo">
         <h1>{{ dados?.inicio.nome }}</h1>
-        <p>{{ dados?.idade}} anos.</p>
+        <p>{{ modalservice.idade() ?? 'Não informado'}} anos.</p>
         <p><strong>Telefone:</strong> {{ dados?.inicio.contatoCel }}</p>
         <p><strong>Email:</strong> {{ dados?.inicio.contatoEmail }}</p>
       </section>

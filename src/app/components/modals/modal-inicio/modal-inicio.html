@@ -30,7 +30,28 @@
       #contatoCelRef="ngModel"
     />
   </section>
-  <section class="modal-buttons" *ngIf="exibirControles">
-    <button class="foward" (click)="btnFn.continuarInicio(nome, nascimento, contatoCel, contatoEmail )">Avançar</button>
-  </section>
+  <section class="modal-buttons" [ngClass]="{ 'centralizado': !exibirControles }">
+
+  <button
+    class="foward"
+    *ngIf="exibirControles; else salvarBtn"
+    (click)="btnFn.continuarInicio(nome, nascimento, contatoCel, contatoEmail)"
+  >
+    Avançar
+  </button>
+
+  <ng-template #salvarBtn>
+    <button
+      class="foward"
+      (click)="btnFn.salvarInicio(nome, nascimento, contatoCel, contatoEmail)"
+    >
+      Salvar
+    </button>
+
+    <button *ngIf="exibirControles" class="back" (click)="btnFn.voltar()">
+      Voltar
+    </button>
+  </ng-template>
+</section>
+
 </main>

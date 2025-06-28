@@ -5,6 +5,7 @@ import {
   Educacao,
   Inicio,
 } from '../../services/modal';
+import { NotificacaoService } from './notificacao';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +57,10 @@ export class ButtonFunctionsService {
     { sigla: 'TO', nome: 'Tocantins' },
   ];
 
-  constructor(private modalService: ModalService) {}
+  constructor(
+    private modalService: ModalService,
+    private notificacaoService: NotificacaoService
+  ) {}
 
   continuarInicio(
     nome: string,
@@ -71,9 +75,26 @@ export class ButtonFunctionsService {
       contatoEmail,
     };
 
-    this.modalService.inicio = (init)
+    this.modalService.inicio = init;
     console.log('Inicio salvo:', this.modalService.inicio);
     this.modalService.avancarEtapa();
+  }
+
+  salvarInicio(
+    nome: string,
+    nascimento: number | null,
+    contatoCel: string,
+    contatoEmail: string
+  ) {
+    const init: Inicio = {
+      nome,
+      nascimento,
+      contatoCel,
+      contatoEmail,
+    };
+
+    this.modalService.inicio = init;
+    this.notificacaoService.exibir('Dados Salvos com sucesso');
   }
 
   continuarPadrao(): void {
@@ -84,23 +105,23 @@ export class ButtonFunctionsService {
     empresa: string,
     cargo: string,
     descricao: string,
-    dataInicio: number | null,
-    dataFim: number | null,
+    dataInicio: string,
+    dataFim: string,
     atual: boolean
   ) {
     const exp: Experiencia = {
       empresa,
       cargo,
       descricao,
-      dataInicio,
-      dataFim,
+      dataInicio: this.formatarData(dataInicio),
+      dataFim: atual ? '' : this.formatarData(dataFim),
       atual,
     };
 
     this.modalService.experiencias.push(exp);
     console.log(this.modalService.experiencias);
+    this.notificacaoService.exibir('Dados Salvos com sucesso');
 
-    // Limpar campos
     this.empresa = '';
     this.cargo = '';
     this.descricao = '';
@@ -119,6 +140,7 @@ export class ButtonFunctionsService {
   adicionarSkill(skill: string) {
     if (skill.trim()) {
       this.modalService.skills.push(skill);
+      this.notificacaoService.exibir('Dados Salvos com sucesso');
     }
   }
 
@@ -132,6 +154,7 @@ export class ButtonFunctionsService {
   adicionarIdioma(idioma: string) {
     if (idioma.trim()) {
       this.modalService.idiomas.push(idioma);
+      this.notificacaoService.exibir('Dados Salvos com sucesso');
     }
   }
 
@@ -150,10 +173,11 @@ export class ButtonFunctionsService {
         formacao: this.formacao,
         instituicao: this.instituicao,
         estado: this.localizacao,
-        conclusao: this.dataConclusao,
+        conclusao: this.concluido ? this.formatarData(this.dataConclusao) : '',
         concluido: this.concluido,
       };
       this.modalService.educacao.push(educacao);
+      this.notificacaoService.exibir('Dados Salvos com sucesso');
       this.resetCampos();
     }
   }
@@ -195,13 +219,13 @@ export class ButtonFunctionsService {
       formacao: this.formacao,
       instituicao: this.instituicao,
       estado: this.localizacao,
-      conclusao: this.dataConclusao,
+      conclusao: this.concluido ? this.formatarData(this.dataConclusao) : '',
       concluido: this.concluido,
       id: this.editandoItem,
     };
 
     this.editandoItem = null;
-
+    this.notificacaoService.exibir('Dados Salvos com sucesso');
     this.resetCampos();
   }
 
@@ -227,5 +251,17 @@ export class ButtonFunctionsService {
 
   trad(chave: string, mapa: Record<string, string>): string {
     return mapa[chave] ?? chave;
+  }
+
+  formatarData(dataConclusao: string): string {
+    console.log('formatarData called with:', dataConclusao);
+    if (!dataConclusao || dataConclusao.length !== 8)
+      return dataConclusao ?? '';
+
+    const dia = dataConclusao.substring(0, 2);
+    const mes = dataConclusao.substring(2, 4);
+    const ano = dataConclusao.substring(4, 8);
+
+    return `${dia}/${mes}/${ano}`;
   }
 }

@@ -1,0 +1,1077 @@
+diff --git a/src/app/app.html b/src/app/app.html
+index f71bed8..12f9f27 100644
+--- a/src/app/app.html
++++ b/src/app/app.html
+@@ -1,3 +1,8 @@
+ <main class="container">
+   <app-modal-wrapper></app-modal-wrapper>
++  <div class="notifications" *ngIf="notificacao.ativa">
++  <div class="toast">
++    {{ notificacao.mensagem }}
++  </div>
++</div>
+ </main>
+diff --git a/src/app/app.ts b/src/app/app.ts
+index d0022aa..4065fad 100644
+--- a/src/app/app.ts
++++ b/src/app/app.ts
+@@ -2,15 +2,22 @@ import { Component } from '@angular/core';
+ import { FormsModule } from '@angular/forms';
+ import { CommonModule } from '@angular/common';
+ import { ModalWrapperComponent } from './components/modal-wrapper/modal-wrapper';
++import { provideNgxMask } from 'ngx-mask';
++import { NotificacaoService } from './components/utils/notificacao';
+ 
+ @Component({
+   selector: 'app-root',
+   standalone: true,
+   imports: [FormsModule, CommonModule, ModalWrapperComponent],
+   templateUrl: './app.html',
+-  styleUrls: ['./app.css']
++  styleUrls: ['./app.css'],
++  providers: [
++    provideNgxMask({ dropSpecialCharacters: true })
++  ],
+ })
+ 
+ export class App {
++  constructor(public notificacao: NotificacaoService){}
++
+   protected title = 'curriculo-builder';
+ }
+diff --git a/src/app/components/modal-wrapper/modal-wrapper.css b/src/app/components/modal-wrapper/modal-wrapper.css
+index 8d8042a..c657495 100644
+--- a/src/app/components/modal-wrapper/modal-wrapper.css
++++ b/src/app/components/modal-wrapper/modal-wrapper.css
+@@ -2,3 +2,32 @@
+   width: 100%;
+   height: 100%;
+ }
++.notifications {
++  position: fixed;
++  top: 20px;
++  right: 20px;
++  z-index: 9999;
++}
++
++.toast {
++  background-color: #4caf50; /* verde sucesso */
++  color: white;
++  padding: 12px 20px;
++  border-radius: 8px;
++  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
++  animation: fadeOut 4s forwards;
++}
++
++@keyframes fadeOut {
++  0% {
++    opacity: 1;
++    transform: translateY(0);
++  }
++  80% {
++    opacity: 1;
++  }
++  100% {
++    opacity: 0;
++    transform: translateY(-10px);
++  }
++}
+diff --git a/src/app/components/modal-wrapper/modal-wrapper.ts b/src/app/components/modal-wrapper/modal-wrapper.ts
+index 9dd8aba..a3b9b98 100644
+--- a/src/app/components/modal-wrapper/modal-wrapper.ts
++++ b/src/app/components/modal-wrapper/modal-wrapper.ts
+@@ -2,22 +2,30 @@ import { Component } from '@angular/core';
+ import { ModalService } from '../../services/modal';
+ import { CommonModule } from '@angular/common';
+ import { FormsModule } from '@angular/forms';
+-import { ModalInicioComponent } from "../modals/modal-inicio/modal-inicio";
+-import { ModalExperienciasComponent } from "../modals/modal-experiencias/modal-experiencias";
+-import { ModalSkillsComponent } from "../modals/modal-skills/modal-skills";
+-import { ModalEducacaoComponent } from "../modals/modal-educacao/modal-educacao";
+-import { ModalIdiomasComponent } from "../modals/modal-idiomas/modal-idiomas";
++import { ModalInicioComponent } from '../modals/modal-inicio/modal-inicio';
++import { ModalExperienciasComponent } from '../modals/modal-experiencias/modal-experiencias';
++import { ModalSkillsComponent } from '../modals/modal-skills/modal-skills';
++import { ModalEducacaoComponent } from '../modals/modal-educacao/modal-educacao';
++import { ModalIdiomasComponent } from '../modals/modal-idiomas/modal-idiomas';
+ import { ModalPrint } from '../modals/modal-print/modal-print';
+ 
+-
+-
+ @Component({
+   selector: 'app-modal-wrapper',
+   templateUrl: './modal-wrapper.html',
+-  imports: [FormsModule, CommonModule, ModalInicioComponent, ModalExperienciasComponent, ModalSkillsComponent, ModalEducacaoComponent, ModalIdiomasComponent, ModalPrint],
++  imports: [
++    FormsModule,
++    CommonModule,
++    ModalInicioComponent,
++    ModalExperienciasComponent,
++    ModalSkillsComponent,
++    ModalEducacaoComponent,
++    ModalIdiomasComponent,
++    ModalPrint,
++  ],
+   standalone: true,
+   styleUrls: ['./modal-wrapper.css'],
+ })
+ export class ModalWrapperComponent {
+   constructor(public modalService: ModalService) {}
++
+ }
+diff --git a/src/app/components/modals/modal-educacao/modal-educacao.css b/src/app/components/modals/modal-educacao/modal-educacao.css
+index 0beb8d8..3417406 100644
+--- a/src/app/components/modals/modal-educacao/modal-educacao.css
++++ b/src/app/components/modals/modal-educacao/modal-educacao.css
+@@ -3,10 +3,7 @@
+   flex-direction: column;
+   justify-content: space-between;
+   padding: 2em;
+-  input,
+-  select {
+-    width: 65%;
+-  }
++  width: 100%;
+ 
+   label {
+     display: flex;
+@@ -15,16 +12,26 @@
+     align-items: center;
+     font-size: 0.8em;
+   }
++  input,
++  select {
++    width: 500px;
++  }
+ }
+-.conclusão {
+-  display: flex;
+-  justify-content: space-between;
+-  align-items: center;
++.conclusao{
++gap: 2em;
++display: flex;
++align-items: center;
++justify-content: center;
++.dataConclusao input{
++  margin-left: 2em;
++  width: 150px;
+ }
+-.checkbox {
++.checkbox{
+   display: flex;
+-  gap: 20px;
++  width: 30%;
+ }
++}
++
+ .inserted-education li {
+   position: relative;
+ }
+diff --git a/src/app/components/modals/modal-educacao/modal-educacao.html b/src/app/components/modals/modal-educacao/modal-educacao.html
+index fae2889..0bf0cfb 100644
+--- a/src/app/components/modals/modal-educacao/modal-educacao.html
++++ b/src/app/components/modals/modal-educacao/modal-educacao.html
+@@ -60,25 +60,30 @@
+         </select>
+       </label>
+ 
+-      <div class="conclusão">
+-        <label for="dataConclusao" *ngIf="btnFn.concluido">
+-          Data de Conclusão
+-          <input
+-            class="dataConclusao-input"
+-            id="dataConclusao"
+-            type="date"
+-            [(ngModel)]="btnFn.dataConclusao"
+-            name="dataConclusao"
+-          />
+-        </label>
+-        <label class="checkbox">
+-          Concluído
++      <div class="conclusao">
++        <div class="dataConclusao">
++          <label for="dataConclusao" *ngIf="btnFn.concluido">
++            Data de Conclusão
++            <input
++              class="dataConclusao-input"
++              mask="00/00/0000"
++              required
++              type="text"
++              [(ngModel)]="btnFn.dataConclusao"
++              name="dataConclusao"
++              placeholder="DD/MM/AAAA"
++            />
++          </label>
++        </div>
++        <div class="checkbox">
++          <label> Concluído </label>
+           <input
++
+             type="checkbox"
+             [(ngModel)]="btnFn.concluido"
+             name="concluido"
+           />
+-        </label>
++        </div>
+       </div>
+ 
+       <ng-container *ngIf="modalService.educacao.length > 0">
+@@ -100,11 +105,13 @@
+               </p>
+             </div>
+ 
+-            <button class='remove' (click)="btnFn.removerEdu(educ)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
++            <button class="remove" (click)="btnFn.removerEdu(educ)">
++              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                 <path
+                   d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"
+                 />
+-              </svg></button>
++              </svg>
++            </button>
+             <button
+               *ngIf="btnFn.editandoItem !== educ.id"
+               (click)="btnFn.editarEdu(educ)"
+diff --git a/src/app/components/modals/modal-educacao/modal-educacao.ts b/src/app/components/modals/modal-educacao/modal-educacao.ts
+index da8d0a2..a098bc5 100644
+--- a/src/app/components/modals/modal-educacao/modal-educacao.ts
++++ b/src/app/components/modals/modal-educacao/modal-educacao.ts
+@@ -3,13 +3,14 @@ import { ModalService } from '../../../services/modal';
+ import { CommonModule } from '@angular/common';
+ import { FormsModule } from '@angular/forms';
+ import { ButtonFunctionsService } from '../../utils/global-functions';
++import { NgxMaskDirective } from 'ngx-mask';
+ 
+ @Component({
+   selector: 'app-modal-educacao',
+   templateUrl: './modal-educacao.html',
+   styleUrls: ['./modal-educacao.css'],
+   standalone: true,
+-  imports: [FormsModule, CommonModule],
++  imports: [FormsModule, CommonModule, NgxMaskDirective],
+ })
+ export class ModalEducacaoComponent {
+   @Input() exibirControles: boolean = true;
+diff --git a/src/app/components/modals/modal-experiencias/modal-experiencias.html b/src/app/components/modals/modal-experiencias/modal-experiencias.html
+index 2769feb..f4d9469 100644
+--- a/src/app/components/modals/modal-experiencias/modal-experiencias.html
++++ b/src/app/components/modals/modal-experiencias/modal-experiencias.html
+@@ -76,7 +76,7 @@
+     <button
+       class="add"
+       (click)="btnFn.adicionarExp(empresa, cargo, descricao, dataInicio, dataFim, atual);
+-           empresa=''; cargo=''; descricao=''; dataInicio=null; dataFim=null; atual=false;"
++           empresa=''; cargo=''; descricao=''; dataInicio=''; dataFim=''; atual=false;"
+     >
+       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+         <path
+diff --git a/src/app/components/modals/modal-experiencias/modal-experiencias.ts b/src/app/components/modals/modal-experiencias/modal-experiencias.ts
+index 74a2a11..5ed091b 100644
+--- a/src/app/components/modals/modal-experiencias/modal-experiencias.ts
++++ b/src/app/components/modals/modal-experiencias/modal-experiencias.ts
+@@ -11,7 +11,6 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+   templateUrl: './modal-experiencias.html',
+   styleUrls: ['./modal-experiencias.css'],
+   imports: [FormsModule, CommonModule, TextFieldModule, NgxMaskDirective],
+-  providers: [provideNgxMask()]
+ })
+ export class ModalExperienciasComponent {
+   @Input() exibirControles: boolean = true;
+@@ -24,8 +23,8 @@ export class ModalExperienciasComponent {
+   empresa = '';
+   cargo = '';
+   descricao = '';
+-  dataInicio: number | null = null;
+-  dataFim: number | null = null;
++  dataInicio= '';
++  dataFim= '';
+ 
+ 
+   atual = false;
+diff --git a/src/app/components/modals/modal-idiomas/modal-idiomas.css b/src/app/components/modals/modal-idiomas/modal-idiomas.css
+index 1b7c755..c7bc61c 100644
+--- a/src/app/components/modals/modal-idiomas/modal-idiomas.css
++++ b/src/app/components/modals/modal-idiomas/modal-idiomas.css
+@@ -9,7 +9,6 @@
+   }
+ }
+ .modal-content ul {
+-  width: 500px;
+   list-style-type: none;
+   display: flex;
+   flex-wrap: wrap;
+diff --git a/src/app/components/modals/modal-inicio/modal-inicio.html b/src/app/components/modals/modal-inicio/modal-inicio.html
+index 7ec8286..93ae4cd 100644
+--- a/src/app/components/modals/modal-inicio/modal-inicio.html
++++ b/src/app/components/modals/modal-inicio/modal-inicio.html
+@@ -30,7 +30,28 @@
+       #contatoCelRef="ngModel"
+     />
+   </section>
+-  <section class="modal-buttons" *ngIf="exibirControles">
+-    <button class="foward" (click)="btnFn.continuarInicio(nome, nascimento, contatoCel, contatoEmail )">Avançar</button>
+-  </section>
++  <section class="modal-buttons" [ngClass]="{ 'centralizado': !exibirControles }">
++
++  <button
++    class="foward"
++    *ngIf="exibirControles; else salvarBtn"
++    (click)="btnFn.continuarInicio(nome, nascimento, contatoCel, contatoEmail)"
++  >
++    Avançar
++  </button>
++
++  <ng-template #salvarBtn>
++    <button
++      class="foward"
++      (click)="btnFn.salvarInicio(nome, nascimento, contatoCel, contatoEmail)"
++    >
++      Salvar
++    </button>
++
++    <button *ngIf="exibirControles" class="back" (click)="btnFn.voltar()">
++      Voltar
++    </button>
++  </ng-template>
++</section>
++
+ </main>
+diff --git a/src/app/components/modals/modal-inicio/modal-inicio.ts b/src/app/components/modals/modal-inicio/modal-inicio.ts
+index 7814dfd..6c85a3c 100644
+--- a/src/app/components/modals/modal-inicio/modal-inicio.ts
++++ b/src/app/components/modals/modal-inicio/modal-inicio.ts
+@@ -15,7 +15,6 @@ import { ButtonFunctionsService } from '../../utils/global-functions';
+ })
+ export class ModalInicioComponent implements OnInit {
+   ngOnInit(): void {
+-
+   }
+   @Input() exibirControles: boolean = true;
+ 
+diff --git a/src/app/components/modals/modal-print/modal-print.css b/src/app/components/modals/modal-print/modal-print.css
+index be2af15..3595131 100644
+--- a/src/app/components/modals/modal-print/modal-print.css
++++ b/src/app/components/modals/modal-print/modal-print.css
+@@ -10,17 +10,38 @@
+   flex-direction: column;
+   width: 600px;
+   gap: 3em;
+-  .art1 ul{
++  .art1 ul {
+     display: grid;
+     grid-template-columns: repeat(2, 1fr);
+     width: 100%;
+   }
+-  .art2 ul{
++  .art2 ul {
+     display: flex;
+     flex-direction: row;
+   }
++  .art3 ul,
++  .art5 ul {
++    display: flex;
++    flex-wrap: wrap;
++    gap: 8px;
++    list-style: none;
++    padding: 1em 0;
++    margin: 0;
++  }
++
++  .art3 li,
++  .art5 li {
++    flex: 1;
++    padding: 4px 8px;
++    border-radius: 4px;
++    border: 1px solid #ccc;
++  }
+   article {
+-    text-align: center;
++    display: flex;
++    flex-direction: column;
++    justify-content: center;
++    align-items: center;
++    gap: 1em;
+   }
+   h2 {
+     text-align: center;
+@@ -31,10 +52,11 @@
+     display: flex;
+     align-items: center;
+     gap: 1em;
+-    padding: .7em;
+-    border-top: .5px solid #ccc;
+-    border-bottom: .5px solid #ccc;
++    padding: 0.7em;
++    border-top: 0.5px solid #ccc;
++    border-bottom: 0.5px solid #ccc;
+     margin-bottom: 1em;
++    width: 100%;
+   }
+   .dadosIniciais,
+   li {
+@@ -42,6 +64,15 @@
+     text-align: center;
+   }
+ }
++.expData {
++  display: flex;
++  flex-direction: column;
++  text-wrap: nowrap;
++}
++.limitContent {
++  border-bottom: 1px dotted black;
++  width: 100%;
++}
+ 
+ .modal-overlay {
+   position: fixed;
+@@ -60,89 +91,93 @@
+   background: white;
+   padding: 2em;
+   border-radius: 8px;
+-  width: 90%;
+-  max-width: 600px;
+   max-height: 90vh;
+   overflow-y: auto;
+ }
+-.template-selector{
++.template-selector {
+   position: fixed;
+   bottom: 0;
+-  right: 0;
++  right: 0%;
+   display: flex;
+-  height: 2em;
+   align-items: center;
++  justify-content: center;
++  flex-direction: column;
+   gap: 2em;
+-  padding: 4em;
++  margin: 20px;
++  width: 150px;
++  .modal-buttons{
++    display: flex;
++    justify-content: center;
++  }
+ }
+-.modal-button button{
++.modal-button button {
+   width: 100%;
+ }
+ 
+ @media print {
+-body {
+-  background: white !important;
+-}
+-.modal-title,
+-.modal-header {
+-  display: none;
+-}
+-.main-container {
+-  border: none;
+-  margin: 0;
+-  padding: 0;
+-  border-radius: 0;
+-  box-shadow: none;
+-}
+-.modal-content {
+-  position: relative;
+-}
+-.art1 {
+-  width: 100%;
+-  ul{
+-    border: 1px solid rgb(0, 0, 0);
+-  }
+-
+-  ul li:nth-child(1) {
+-    font-weight: 800;
+-    position: absolute;
+-    right: 0;
+-    top: 0;
++  body {
++    background: white !important;
+   }
+-  h2 {
++  .modal-title,
++  .modal-header {
+     display: none;
+   }
+-}
++  .main-container {
++    border: none;
++    margin: 0;
++    padding: 0;
++    border-radius: 0;
++    box-shadow: none;
++  }
++  .modal-content {
++    position: relative;
++  }
++  .art1 {
++    width: 100%;
++    ul {
++      border: 1px solid rgb(0, 0, 0);
++    }
+ 
+-.modal-content .button,
+-.print\:hidden,
+-.modal-overlay {
+-  display: none !important;
+-}
++    ul li:nth-child(1) {
++      font-weight: 800;
++      position: absolute;
++      right: 0;
++      top: 0;
++    }
++    h2 {
++      display: none;
++    }
++  }
+ 
+-.modal-header,
+-.modal-content article {
+-  page-break-inside: avoid;
+-}
++  .modal-content .button,
++  .print\:hidden,
++  .modal-overlay {
++    display: none !important;
++  }
+ 
+-.modal-title {
+-  font-size: 1.6rem;
+-  border: none;
+-}
++  .modal-header,
++  .modal-content article {
++    page-break-inside: avoid;
++  }
+ 
+-.modal-content h2 {
+-  font-size: 1.1rem;
+-  color: #000;
+-}
++  .modal-title {
++    font-size: 1.6rem;
++    border: none;
++  }
+ 
+-.modal-content ul {
+-  display: block;
+-  padding-left: 0;
+-}
++  .modal-content h2 {
++    font-size: 1.1rem;
++    color: #000;
++  }
+ 
+-.modal-content li {
+-  text-align: left;
+-  width: 100%;
+-  padding-bottom: 0.5em;
+-}
++  .modal-content ul {
++    display: block;
++    padding-left: 0;
++  }
++
++  .modal-content li {
++    text-align: left;
++    width: 100%;
++    padding-bottom: 0.5em;
++  }
+ }
+diff --git a/src/app/components/modals/modal-print/modal-print.html b/src/app/components/modals/modal-print/modal-print.html
+index 506d0c0..e941fd8 100644
+--- a/src/app/components/modals/modal-print/modal-print.html
++++ b/src/app/components/modals/modal-print/modal-print.html
+@@ -10,7 +10,7 @@
+           <strong>Nome: </strong>{{ modalService.inicio.nome }}
+         </li>
+         <li class="dadosIniciais">
+-          <strong>Idade: </strong>{{ dadosCompletos.idade}}
++          <strong>Idade: </strong>{{ modalService.idade() ?? 'Não informado'}}
+         </li>
+         <li class="dadosIniciais">
+           <strong>Celular: </strong>{{
+@@ -22,6 +22,7 @@
+       </ul>
+ 
+       <button class="button" (click)="abrirModal('inicio')">Editar</button>
++      <div class="limitContent"></div>
+     </article>
+ 
+     <article class="art2">
+@@ -29,11 +30,15 @@
+       <ul *ngFor="let exp of modalService.experiencias">
+         <li>Empresa: {{ exp.empresa }} <br /></li>
+         <li>Cargo: {{ exp.cargo }}</li>
+-        <li>De: {{exp.dataInicio}} até {{exp.dataFim}}.</li>
++        <div class="expData">
++          <li>De: {{exp.dataInicio}}</li>
++          <li>Até {{exp.dataFim}}.</li>
++        </div>
+       </ul>
+       <button class="button" (click)="abrirModal('experiencias')">
+         Editar
+       </button>
++      <div class="limitContent"></div>
+     </article>
+ 
+     <article class="art3">
+@@ -41,28 +46,32 @@
+       <ul>
+         <li *ngFor="let skill of modalService.skills">{{ skill }}</li>
+       </ul>
+-      <button class="button" (click)="abrirModal('Habilidades')">Editar</button>
++      <button class="button" (click)="abrirModal('skills')">Editar</button>
++      <div class="limitContent"></div>
+     </article>
+-
+     <article class="art4">
+       <h2>Educação:</h2>
+-      <ul *ngFor="let edu of modalService.educacao">
+-        <li>
+-          <ng-container *ngIf="edu.tipo === 'medio'; else outrasFormacoes">
+-            Ensino Médio: {{edu.concluido ? 'Completo':'Incompleto'}} - {{edu.instituicao}}
+-          </ng-container>
+-          <ng-template #outrasFormacoes>
+-            {{trad(edu.tipo, mapTipo)}}: {{edu.formacao}} - {{edu.instituicao}}
+-          </ng-template>
+-        </li>
+-        <li>
+-          {{edu.estado}} |
+-          <strong *ngIf="edu.concluido">Conclusão:</strong>
+-          <strong *ngIf="!edu.concluido">Em andamento</strong>
+-          {{ edu.concluido ? edu.conclusao + '.' : '' }}
++      <ul>
++        <li *ngFor="let edu of modalService.educacao">
++          <div>
++            <ng-container *ngIf="edu.tipo === 'medio'; else outrasFormacoes">
++              Ensino Médio: {{ edu.concluido ? 'Completo' : 'Incompleto' }} - {{
++              edu.instituicao }}
++            </ng-container>
++            <ng-template #outrasFormacoes>
++              {{ trad(edu.tipo, mapTipo) }}: {{ edu.formacao }} - {{
++              edu.instituicao }}
++            </ng-template>
++          </div>
++          <div class="expData">
++            <span>{{ edu.estado }}</span>
++            <span *ngIf="edu.concluido">Conclusão: {{ edu.conclusao }}.</span>
++            <span *ngIf="!edu.concluido">Em andamento</span>
++          </div>
+         </li>
+       </ul>
+       <button class="button" (click)="abrirModal('educacao')">Editar</button>
++      <div class="limitContent"></div>
+     </article>
+ 
+     <article class="art5">
+@@ -71,6 +80,7 @@
+         <li *ngFor="let idioma of modalService.idiomas">{{ idioma }}</li>
+       </ul>
+       <button class="button" (click)="abrirModal('idiomas')">Editar</button>
++      <div class="limitContent"></div>
+     </article>
+ 
+     <section class="modal-button">
+@@ -126,4 +136,8 @@
+     (confirmar)="imprimir()"
+   >
+   </app-modal-preview>
++
++  <div class="notifications" *ngIf="notificacaoAtiva">
++    <div class="toast">{{ mensagemNotificacao }}</div>
++  </div>
+ </main>
+diff --git a/src/app/components/modals/modal-print/modal-print.ts b/src/app/components/modals/modal-print/modal-print.ts
+index ba08854..24dfe4c 100644
+--- a/src/app/components/modals/modal-print/modal-print.ts
++++ b/src/app/components/modals/modal-print/modal-print.ts
+@@ -9,6 +9,7 @@ import { ModalInicioComponent } from '../modal-inicio/modal-inicio';
+ import { ModalSkillsComponent } from '../modal-skills/modal-skills';
+ import { ModalExperienciasComponent } from '../modal-experiencias/modal-experiencias';
+ import { PreviewModalComponent } from '../modal-preview/modal-preview';
++import { ButtonFunctionsService } from '../../utils/global-functions';
+ 
+ @Component({
+   standalone: true,
+@@ -27,9 +28,7 @@ import { PreviewModalComponent } from '../modal-preview/modal-preview';
+   styleUrl: './modal-print.css',
+ })
+ export class ModalPrint {
+-  ngOnInit() {
+-    console.log(this.modalService.inicio, this.modalService.experiencias, this.modalService.educacao, this.modalService.idiomas, this.modalService.skills)
+-  }
++  ngOnInit() {}
+ 
+   formatarCelular(numero: string): string {
+     if (!numero) return '';
+@@ -96,11 +95,17 @@ export class ModalPrint {
+     };
+   }
+ 
+-  constructor(public modalService: ModalService) {}
++  constructor(
++    public modalService: ModalService,
++    public btnFn: ButtonFunctionsService
++  ) {}
++
++  public fecharModalCallback = () => this.fecharModal();
+ 
+   abrirModal(secao: string) {
+     this.modalAberto = secao;
+   }
++
+   fecharModal() {
+     this.modalAberto = null;
+   }
+@@ -137,4 +142,17 @@ export class ModalPrint {
+   trad(chave: string, mapa: Record<string, string>): string {
+     return mapa[chave] ?? chave;
+   }
++
++  notificacaoAtiva = false;
++  mensagemNotificacao = '';
++
++  exibirNotificacao(mensagem: string) {
++    this.mensagemNotificacao = mensagem;
++    this.notificacaoAtiva = true;
++
++    setTimeout(() => {
++      this.notificacaoAtiva = false;
++      this.mensagemNotificacao = '';
++    }, 4000);
++  }
+ }
+diff --git a/src/app/components/modals/modal-skills/modal-skills.css b/src/app/components/modals/modal-skills/modal-skills.css
+index 7fcf37c..585d381 100644
+--- a/src/app/components/modals/modal-skills/modal-skills.css
++++ b/src/app/components/modals/modal-skills/modal-skills.css
+@@ -9,7 +9,6 @@
+   }
+ }
+ .modal-content ul {
+-  width: 500px;
+   list-style-type: none;
+   display: flex;
+   flex-wrap: wrap;
+diff --git a/src/app/components/template/template-curriculo/template-curriculo.html b/src/app/components/template/template-curriculo/template-curriculo.html
+index 5cddeac..618691e 100644
+--- a/src/app/components/template/template-curriculo/template-curriculo.html
++++ b/src/app/components/template/template-curriculo/template-curriculo.html
+@@ -3,7 +3,7 @@
+     <main class="template-classico">
+       <section class="topo">
+         <h1>{{ dados?.inicio.nome }}</h1>
+-        <p>{{ dados?.idade}} anos.</p>
++        <p>{{ modalservice.idade() ?? 'Não informado'}} anos.</p>
+         <p><strong>Telefone:</strong> {{ dados?.inicio.contatoCel }}</p>
+         <p><strong>Email:</strong> {{ dados?.inicio.contatoEmail }}</p>
+       </section>
+diff --git a/src/app/components/utils/global-functions.ts b/src/app/components/utils/global-functions.ts
+index e2ef887..9271ebf 100644
+--- a/src/app/components/utils/global-functions.ts
++++ b/src/app/components/utils/global-functions.ts
+@@ -5,6 +5,7 @@ import {
+   Educacao,
+   Inicio,
+ } from '../../services/modal';
++import { NotificacaoService } from './notificacao';
+ 
+ @Injectable({
+   providedIn: 'root',
+@@ -56,7 +57,10 @@ export class ButtonFunctionsService {
+     { sigla: 'TO', nome: 'Tocantins' },
+   ];
+ 
+-  constructor(private modalService: ModalService) {}
++  constructor(
++    private modalService: ModalService,
++    private notificacaoService: NotificacaoService
++  ) {}
+ 
+   continuarInicio(
+     nome: string,
+@@ -71,11 +75,28 @@ export class ButtonFunctionsService {
+       contatoEmail,
+     };
+ 
+-    this.modalService.inicio = (init)
++    this.modalService.inicio = init;
+     console.log('Inicio salvo:', this.modalService.inicio);
+     this.modalService.avancarEtapa();
+   }
+ 
++  salvarInicio(
++    nome: string,
++    nascimento: number | null,
++    contatoCel: string,
++    contatoEmail: string
++  ) {
++    const init: Inicio = {
++      nome,
++      nascimento,
++      contatoCel,
++      contatoEmail,
++    };
++
++    this.modalService.inicio = init;
++    this.notificacaoService.exibir('Dados Salvos com sucesso');
++  }
++
+   continuarPadrao(): void {
+     this.modalService.avancarEtapa();
+   }
+@@ -84,23 +105,23 @@ export class ButtonFunctionsService {
+     empresa: string,
+     cargo: string,
+     descricao: string,
+-    dataInicio: number | null,
+-    dataFim: number | null,
++    dataInicio: string,
++    dataFim: string,
+     atual: boolean
+   ) {
+     const exp: Experiencia = {
+       empresa,
+       cargo,
+       descricao,
+-      dataInicio,
+-      dataFim,
++      dataInicio: this.formatarData(dataInicio),
++      dataFim: atual ? '' : this.formatarData(dataFim),
+       atual,
+     };
+ 
+     this.modalService.experiencias.push(exp);
+     console.log(this.modalService.experiencias);
++    this.notificacaoService.exibir('Dados Salvos com sucesso');
+ 
+-    // Limpar campos
+     this.empresa = '';
+     this.cargo = '';
+     this.descricao = '';
+@@ -119,6 +140,7 @@ export class ButtonFunctionsService {
+   adicionarSkill(skill: string) {
+     if (skill.trim()) {
+       this.modalService.skills.push(skill);
++      this.notificacaoService.exibir('Dados Salvos com sucesso');
+     }
+   }
+ 
+@@ -132,6 +154,7 @@ export class ButtonFunctionsService {
+   adicionarIdioma(idioma: string) {
+     if (idioma.trim()) {
+       this.modalService.idiomas.push(idioma);
++      this.notificacaoService.exibir('Dados Salvos com sucesso');
+     }
+   }
+ 
+@@ -150,10 +173,11 @@ export class ButtonFunctionsService {
+         formacao: this.formacao,
+         instituicao: this.instituicao,
+         estado: this.localizacao,
+-        conclusao: this.dataConclusao,
++        conclusao: this.concluido ? this.formatarData(this.dataConclusao) : '',
+         concluido: this.concluido,
+       };
+       this.modalService.educacao.push(educacao);
++      this.notificacaoService.exibir('Dados Salvos com sucesso');
+       this.resetCampos();
+     }
+   }
+@@ -195,13 +219,13 @@ export class ButtonFunctionsService {
+       formacao: this.formacao,
+       instituicao: this.instituicao,
+       estado: this.localizacao,
+-      conclusao: this.dataConclusao,
++      conclusao: this.concluido ? this.formatarData(this.dataConclusao) : '',
+       concluido: this.concluido,
+       id: this.editandoItem,
+     };
+ 
+     this.editandoItem = null;
+-
++    this.notificacaoService.exibir('Dados Salvos com sucesso');
+     this.resetCampos();
+   }
+ 
+@@ -228,4 +252,16 @@ export class ButtonFunctionsService {
+   trad(chave: string, mapa: Record<string, string>): string {
+     return mapa[chave] ?? chave;
+   }
++
++  formatarData(dataConclusao: string): string {
++    console.log('formatarData called with:', dataConclusao);
++    if (!dataConclusao || dataConclusao.length !== 8)
++      return dataConclusao ?? '';
++
++    const dia = dataConclusao.substring(0, 2);
++    const mes = dataConclusao.substring(2, 4);
++    const ano = dataConclusao.substring(4, 8);
++
++    return `${dia}/${mes}/${ano}`;
++  }
+ }
+diff --git a/src/app/services/modal.ts b/src/app/services/modal.ts
+index 4fb9e44..db30637 100644
+--- a/src/app/services/modal.ts
++++ b/src/app/services/modal.ts
+@@ -4,8 +4,8 @@ export interface Experiencia {
+   empresa: string;
+   cargo: string;
+   descricao: string;
+-  dataInicio: number| null;
+-  dataFim: number | null;
++  dataInicio: string;
++  dataFim: string;
+   atual: boolean;
+ }
+ 
+@@ -44,12 +44,28 @@ export class ModalService {
+   educacao: Educacao[] = [];
+   idiomas: string[] = [];
+ 
+-  // idade(): number | null {
+-  //   if (!this.inicio.nascimento) return null;
+-  //   const ano = parseInt(this.inicio.nascimento.split('-')[0], 10);
+-  //   const anoAtual = new Date().getFullYear();
+-  //   return anoAtual - ano;
+-  // }
++  idade(): number | null {
++    if (!this.inicio.nascimento) return null;
++
++    const nascimentoStr = this.inicio.nascimento.toString().padStart(8, '0');
++
++    const dia = parseInt(nascimentoStr.substring(0, 2), 10);
++    const mes = parseInt(nascimentoStr.substring(2, 4), 10) - 1;
++    const ano = parseInt(nascimentoStr.substring(4, 8), 10);
++
++    const nascimento = new Date(ano, mes, dia);
++    const hoje = new Date();
++
++    let idade = hoje.getFullYear() - nascimento.getFullYear();
++    const mesAtual = hoje.getMonth();
++    const diaAtual = hoje.getDate();
++
++    if (mesAtual < mes || (mesAtual === mes && diaAtual < dia)) {
++      idade--;
++    }
++
++    return idade;
++  }
+ 
+   avancarEtapa() {
+     this.currentStep++;
+diff --git a/src/styles.css b/src/styles.css
+index ad2bc44..8383d54 100644
+--- a/src/styles.css
++++ b/src/styles.css
+@@ -13,8 +13,9 @@ body {
+   justify-content: center;
+ }
+ .main-container {
+-  min-width: 500px;
++  min-width: 800px;
+   min-height: 100%;
++  width: 500px;
+   display: flex;
+   justify-content: space-between;
+   flex-direction: column;
+@@ -31,6 +32,7 @@ body {
+     flex-direction: column;
+     align-items: center;
+     padding: 2em 0;
++    width: 100%;
+   }
+   input,
+   textarea,
+@@ -52,11 +54,11 @@ body {
+   }
+ }
+ .modal-buttons {
+-  display: flex;
+   width: 100%;
++  margin-bottom: 10px;
++  display: flex;
+   justify-content: space-between;
+-  width: 100%;
+-  padding: 2em 3em;
++  padding-top: 2em;
+   .add {
+     width: var(--botao-altura);
+     background-color: green;
+@@ -74,7 +76,8 @@ body {
+   justify-content: center;
+   gap: 1.5em;
+ }
+-.inserted-exp, .inserted-education {
++.inserted-exp,
++.inserted-education {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 1em;
+@@ -95,11 +98,12 @@ body {
+   }
+ }
+ 
+-.exp-content, .inserted-education-content {
++.exp-content,
++.inserted-education-content {
+   flex-direction: column;
+   display: flex;
+ }
+-.remove{
++.remove {
+   background: none;
+   border: none;
+   padding: 0.2em;
+@@ -110,7 +114,9 @@ body {
+     height: 100%;
+   }
+ }
+-.modal-buttons button, .button, .modal-button button {
++.modal-buttons button,
++.button,
++.modal-button button {
+   border: none;
+   outline: none;
+   cursor: pointer;
+@@ -134,3 +140,33 @@ body {
+   margin: 0;
+   font-family: Roboto, "Helvetica Neue", sans-serif;
+ }
++
++.notifications {
++  position: fixed;
++  top: 20px;
++  right: 20px;
++  z-index: 9999;
++}
++
++.toast {
++  background-color: #4caf50;
++  color: white;
++  padding: 12px 20px;
++  border-radius: 8px;
++  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
++  animation: fadeOut 4s forwards;
++}
++
++@keyframes fadeOut {
++  0% {
++    opacity: 1;
++    transform: translateY(0);
++  }
++  80% {
++    opacity: 1;
++  }
++  100% {
++    opacity: 0;
++    transform: translateY(-10px);
++  }
++}

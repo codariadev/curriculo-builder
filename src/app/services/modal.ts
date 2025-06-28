@@ -4,8 +4,8 @@ export interface Experiencia {
   empresa: string;
   cargo: string;
   descricao: string;
-  dataInicio: number| null;
-  dataFim: number | null;
+  dataInicio: string;
+  dataFim: string;
   atual: boolean;
 }
 
@@ -44,12 +44,28 @@ export class ModalService {
   educacao: Educacao[] = [];
   idiomas: string[] = [];
 
-  // idade(): number | null {
-  //   if (!this.inicio.nascimento) return null;
-  //   const ano = parseInt(this.inicio.nascimento.split('-')[0], 10);
-  //   const anoAtual = new Date().getFullYear();
-  //   return anoAtual - ano;
-  // }
+  idade(): number | null {
+    if (!this.inicio.nascimento) return null;
+
+    const nascimentoStr = this.inicio.nascimento.toString().padStart(8, '0');
+
+    const dia = parseInt(nascimentoStr.substring(0, 2), 10);
+    const mes = parseInt(nascimentoStr.substring(2, 4), 10) - 1;
+    const ano = parseInt(nascimentoStr.substring(4, 8), 10);
+
+    const nascimento = new Date(ano, mes, dia);
+    const hoje = new Date();
+
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
+    const mesAtual = hoje.getMonth();
+    const diaAtual = hoje.getDate();
+
+    if (mesAtual < mes || (mesAtual === mes && diaAtual < dia)) {
+      idade--;
+    }
+
+    return idade;
+  }
 
   avancarEtapa() {
     this.currentStep++;

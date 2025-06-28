@@ -9,6 +9,7 @@ import { ModalInicioComponent } from '../modal-inicio/modal-inicio';
 import { ModalSkillsComponent } from '../modal-skills/modal-skills';
 import { ModalExperienciasComponent } from '../modal-experiencias/modal-experiencias';
 import { PreviewModalComponent } from '../modal-preview/modal-preview';
+import { ButtonFunctionsService } from '../../utils/global-functions';
 
 @Component({
   standalone: true,
@@ -27,9 +28,7 @@ import { PreviewModalComponent } from '../modal-preview/modal-preview';
   styleUrl: './modal-print.css',
 })
 export class ModalPrint {
-  ngOnInit() {
-    console.log(this.modalService.inicio, this.modalService.experiencias, this.modalService.educacao, this.modalService.idiomas, this.modalService.skills)
-  }
+  ngOnInit() {}
 
   formatarCelular(numero: string): string {
     if (!numero) return '';
@@ -96,11 +95,17 @@ export class ModalPrint {
     };
   }
 
-  constructor(public modalService: ModalService) {}
+  constructor(
+    public modalService: ModalService,
+    public btnFn: ButtonFunctionsService
+  ) {}
+
+  public fecharModalCallback = () => this.fecharModal();
 
   abrirModal(secao: string) {
     this.modalAberto = secao;
   }
+
   fecharModal() {
     this.modalAberto = null;
   }
@@ -136,5 +141,18 @@ export class ModalPrint {
 
   trad(chave: string, mapa: Record<string, string>): string {
     return mapa[chave] ?? chave;
+  }
+
+  notificacaoAtiva = false;
+  mensagemNotificacao = '';
+
+  exibirNotificacao(mensagem: string) {
+    this.mensagemNotificacao = mensagem;
+    this.notificacaoAtiva = true;
+
+    setTimeout(() => {
+      this.notificacaoAtiva = false;
+      this.mensagemNotificacao = '';
+    }, 4000);
   }
 }
